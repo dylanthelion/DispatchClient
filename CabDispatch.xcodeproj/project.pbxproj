@@ -13,6 +13,9 @@
 		745FEF4F1AF43F2A003C397A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 745FEF4E1AF43F2A003C397A /* Images.xcassets */; };
 		745FEF521AF43F2A003C397A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745FEF501AF43F2A003C397A /* LaunchScreen.xib */; };
 		745FEF5E1AF43F2A003C397A /* CabDispatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745FEF5D1AF43F2A003C397A /* CabDispatchTests.swift */; };
+		745FEF681AF43F39003C397A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745FEF671AF43F38003C397A /* MapKit.framework */; };
+		745FEF6A1AF43F4C003C397A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745FEF691AF43F4C003C397A /* CoreLocation.framework */; };
+		745FEF6B1AF43F6B003C397A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745FEF671AF43F38003C397A /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,8 @@
 		745FEF571AF43F2A003C397A /* CabDispatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CabDispatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		745FEF5C1AF43F2A003C397A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		745FEF5D1AF43F2A003C397A /* CabDispatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabDispatchTests.swift; sourceTree = "<group>"; };
+		745FEF671AF43F38003C397A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		745FEF691AF43F4C003C397A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				745FEF6A1AF43F4C003C397A /* CoreLocation.framework in Frameworks */,
+				745FEF681AF43F39003C397A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				745FEF6B1AF43F6B003C397A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +67,8 @@
 		745FEF391AF43F2A003C397A = {
 			isa = PBXGroup;
 			children = (
+				745FEF691AF43F4C003C397A /* CoreLocation.framework */,
+				745FEF671AF43F38003C397A /* MapKit.framework */,
 				745FEF441AF43F2A003C397A /* CabDispatch */,
 				745FEF5A1AF43F2A003C397A /* CabDispatchTests */,
 				745FEF431AF43F2A003C397A /* Products */,
@@ -161,6 +171,11 @@
 				TargetAttributes = {
 					745FEF411AF43F2A003C397A = {
 						CreatedOnToolsVersion = 6.3.1;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					745FEF561AF43F2A003C397A = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -343,6 +358,7 @@
 				INFOPLIST_FILE = CabDispatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -353,6 +369,7 @@
 				INFOPLIST_FILE = CabDispatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
