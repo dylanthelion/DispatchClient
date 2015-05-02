@@ -12,6 +12,8 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var passwordTextField: UITextField!
     
+    let userDataManager = UserData.getData
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +27,8 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     
 
     @IBAction func signinCustomer(sender: AnyObject) {
+        let deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
+        println("Device: \(deviceID)")
     }
     
     @IBAction func signinDriver(sender: AnyObject) {
