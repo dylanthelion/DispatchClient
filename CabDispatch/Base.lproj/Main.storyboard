@@ -39,6 +39,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signinDriver:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Sxg-qF-913"/>
+                                    <segue destination="qhl-pj-LLQ" kind="show" id="jxt-oV-5UA"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="User" translatesAutoresizingMaskIntoConstraints="NO" id="HZm-yx-TbI">
@@ -325,6 +326,218 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SAV-ee-RKk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2190" y="1091"/>
+        </scene>
+        <!--Driver Edit View Controller-->
+        <scene sceneID="Mlj-q6-hsz">
+            <objects>
+                <viewController id="YrR-Dk-wYt" customClass="DriverEditViewController" customModule="CabDispatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Pt7-p2-sw6"/>
+                        <viewControllerLayoutGuide type="bottom" id="NGG-fv-C8r"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Baz-0H-iz8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bpa-L2-Tku">
+                                <rect key="frame" x="136" y="145" width="304" height="173"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Your device's location data and device ID will be used to create and update your account. If you have not allowed Dispatch access to this information, please change in the settings.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mea-vb-phd">
+                                <rect key="frame" x="227" y="421" width="191" height="30"/>
+                                <state key="normal" title="Create Account">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createAccount:" destination="YrR-Dk-wYt" eventType="touchUpInside" id="BYe-Cd-7Zz"/>
+                                    <segue destination="oUy-rN-qS0" kind="show" id="nRl-aW-A12"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="XXB-nS-7HJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1dH-MM-gJP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2973" y="1779"/>
+        </scene>
+        <!--Driver Info View Controller-->
+        <scene sceneID="xXC-C4-ssP">
+            <objects>
+                <viewController id="oUy-rN-qS0" customClass="DriverInfoViewController" customModule="CabDispatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cO7-mQ-bii"/>
+                        <viewControllerLayoutGuide type="bottom" id="RJb-7u-wkh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6bW-Od-kr6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UserID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YOU-pp-W7O">
+                                <rect key="frame" x="246" y="87" width="153" height="62"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sym-Al-43O">
+                                <rect key="frame" x="210" y="230" width="225" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="errorLabel" destination="sym-Al-43O" id="Tsr-c1-a4x"/>
+                        <outlet property="userIDLabel" destination="YOU-pp-W7O" id="aqZ-Va-VJr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pxj-kE-sng" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3632" y="1779"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="hqW-ok-iBr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3qF-rS-hPW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="4y3-IF-d2s"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Vo-NZ-3GR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="YrR-Dk-wYt" kind="relationship" relationship="rootViewController" id="MAp-Ch-7OD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5mL-Qq-ZPb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2190" y="1779"/>
+        </scene>
+        <!--Driver Available Fares View Controller-->
+        <scene sceneID="1LE-VF-zWz">
+            <objects>
+                <viewController id="UQK-Ve-oT9" customClass="DriverAvailableFaresViewController" customModule="CabDispatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ha2-YK-feV"/>
+                        <viewControllerLayoutGuide type="bottom" id="L2Z-sp-skE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oA2-PQ-4Zz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bEk-8C-TFl">
+                                <rect key="frame" x="0.0" y="64" width="600" height="361"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wqn-Xc-Cok">
+                                <rect key="frame" x="51" y="445" width="158" height="30"/>
+                                <state key="normal" title="Current Fares">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Gab-fJ-jFO" kind="show" id="suW-co-wVj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UsL-Wx-gfO">
+                                <rect key="frame" x="61" y="503" width="148" height="30"/>
+                                <state key="normal" title="Sort By">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="filterFares:" destination="UQK-Ve-oT9" eventType="touchUpInside" id="uFj-5d-629"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqG-kz-ZAy">
+                                <rect key="frame" x="413" y="452" width="115" height="30"/>
+                                <state key="normal" title="Accept">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="acceptChosenFare:" destination="UQK-Ve-oT9" eventType="touchUpInside" id="4uP-t3-Wvi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jl2-wa-u4a">
+                                <rect key="frame" x="389" y="497" width="139" height="30"/>
+                                <state key="normal" title="Reject Current">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="clearCurrentFares:" destination="UQK-Ve-oT9" eventType="touchUpInside" id="r4s-zP-yfc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="76f-Vm-wAd"/>
+                    <connections>
+                        <outlet property="mapView" destination="bEk-8C-TFl" id="9MZ-7H-B3R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T4O-lS-85K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2973" y="2447"/>
+        </scene>
+        <!--Driver Assigned Fares View Controller-->
+        <scene sceneID="gLl-Vi-E5x">
+            <objects>
+                <viewController id="Gab-fJ-jFO" customClass="DriverAssignedFaresViewController" customModule="CabDispatch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="z0y-Jm-JaX"/>
+                        <viewControllerLayoutGuide type="bottom" id="VJI-af-tjM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bvj-0H-8mV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S2F-lS-dyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3632" y="2447"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Dod-vK-Qhw">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="qhl-pj-LLQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="SzB-tg-rDc">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="3qF-rS-hPW" kind="relationship" relationship="viewControllers" id="Vaa-4P-CHM"/>
+                        <segue destination="Bf3-Hn-Nxq" kind="relationship" relationship="viewControllers" id="3VB-KY-PiT"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YJp-Qt-f4E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1432" y="2088"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="HaT-xm-hSf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Bf3-Hn-Nxq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="DXG-Kh-re9"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3YN-LM-vAd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UQK-Ve-oT9" kind="relationship" relationship="rootViewController" id="2i5-Yz-bQm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8PQ-in-2QZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2190" y="2447"/>
         </scene>
     </scenes>
     <resources>
