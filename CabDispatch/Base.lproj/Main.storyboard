@@ -29,7 +29,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signinCustomer:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="72e-Jj-4qv"/>
-                                    <segue destination="sFB-hR-K6j" kind="show" id="BFG-xg-2vB"/>
+                                    <segue destination="sFB-hR-K6j" kind="show" identifier="customerSignin" id="BFG-xg-2vB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WrA-jf-x7Y">
@@ -39,7 +39,7 @@
                                 </state>
                                 <connections>
                                     <action selector="signinDriver:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Sxg-qF-913"/>
-                                    <segue destination="qhl-pj-LLQ" kind="show" id="jxt-oV-5UA"/>
+                                    <segue destination="qhl-pj-LLQ" kind="show" identifier="driverSignin" id="jxt-oV-5UA"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="User" translatesAutoresizingMaskIntoConstraints="NO" id="HZm-yx-TbI">

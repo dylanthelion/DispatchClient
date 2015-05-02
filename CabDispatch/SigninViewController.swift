@@ -13,9 +13,12 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     
     let userDataManager = UserData.getData
+    var passwordIsValid : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        passwordTextField.delegate = self
 
         // Do any additional setup after loading the view.
     }
@@ -25,6 +28,11 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 
     @IBAction func signinCustomer(sender: AnyObject) {
         let deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
@@ -32,6 +40,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signinDriver(sender: AnyObject) {
+        
     }
     /*
     // MARK: - Navigation
@@ -42,5 +51,27 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        if(identifier! == "driverSignin") {
+            if(passwordTextField.text == "password") {
+                passwordIsValid = true
+            }
+            
+            if(passwordIsValid == false) {
+                badPasswordAlert()
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func badPasswordAlert() {
+        var alert = UIAlertController(title: "Driver must enter password", message: "Try 'password'", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 
 }
