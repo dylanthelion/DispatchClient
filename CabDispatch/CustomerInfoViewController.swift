@@ -16,6 +16,9 @@ class CustomerInfoViewController: UIViewController {
     
     @IBOutlet weak var emailLabel: UILabel!
     
+    var invalidSubmit : Bool = false
+    var dataManager = UserData.getData
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

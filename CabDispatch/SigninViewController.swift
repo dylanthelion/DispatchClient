@@ -36,7 +36,6 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func signinCustomer(sender: AnyObject) {
         let deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
-        println("Device: \(deviceID)")
     }
     
     @IBAction func signinDriver(sender: AnyObject) {

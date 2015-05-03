@@ -22,12 +22,12 @@ struct AppConstants {
             static let GetDriverLocation = ("GET", "/GetDriverLocation?")
             static let GetDriverWithDevice = ("GET", "/GetDriverWithDevice?")
             static let GetCustomerLocations = ("GET", "/GetCustomerLocations?")
-            static let CreateDriver = ("POST", "/CreateDriver", RequestBodyObjectType.Driver)
-            static let RejectFare = ("POST", "/RejectFare?", RequestBodyObjectType.FareRequest)
-            static let UpdateDriver = ("PUT", "/UpdateDriver", RequestBodyObjectType.Driver)
-            static let PatchDriver = ("PATCH", "/PatchDriver", RequestBodyObjectType.Driver)
+            static let CreateDriver = ("POST", "/CreateDriver", true)
+            static let RejectFare = ("POST", "/RejectFare?", true)
+            static let UpdateDriver = ("PUT", "/UpdateDriver", true)
+            static let PatchDriver = ("PATCH", "/PatchDriver", true)
             static let AcceptFare = ("PATCH", "/AcceptFare?")
-            static let Dropoff = ("PATCH", "/Dropoff?", RequestBodyObjectType.Customer)
+            static let Dropoff = ("PATCH", "/Dropoff?", true)
             static let FireDriver = ("DELETE", "/FireDriver?")
         
         // Customer actions
@@ -35,9 +35,9 @@ struct AppConstants {
             static let AllCustomers = ("GET", "/AllCustomers")
             static let GetCustomer = ("GET", "/GetCustomer?")
             static let GetCustomerWithDevice = ("GET", "/GetCustomerWithDevice?")
-            static let CreateCustomer = ("POST", "/CreateCustomer", RequestBodyObjectType.Customer)
-            static let UpdateCustomer = ("PUT", "/UpdateCustomer", RequestBodyObjectType.Customer)
-            static let PatchCustomer = ("PATCH", "/PatchCustomer", RequestBodyObjectType.Customer)
+            static let CreateCustomer = ("POST", "/CreateCustomer", true)
+            static let UpdateCustomer = ("PUT", "/UpdateCustomer", true)
+            static let PatchCustomer = ("PATCH", "/PatchCustomer", true)
             static let DeleteCustomer = ("DELETE", "/DeleteCustomer?")
         
         // FareRequest actions
@@ -46,8 +46,8 @@ struct AppConstants {
             static let GetFare = ("GET", "/GetFare?")
             static let CustomersBy = ("GET", "/CustomersBy?")
             static let AllEmptyDrivers = ("GET", "/AllEmptyDrivers")
-            static let RequestFare = ("POST", "/RequestFare", RequestBodyObjectType.FareRequest)
-            static let UpdateFare = ("PUT", "/UpdateFare?", RequestBodyObjectType.FareRequest)
+            static let RequestFare = ("POST", "/RequestFare", true)
+            static let UpdateFare = ("PUT", "/UpdateFare?", true)
             static let AssignFare = ("PATCH", "/AssignFare?")
             static let CancelFare = ("DELETE", "/CancelFare?")
         
@@ -62,8 +62,8 @@ struct AppConstants {
     
 }
 
-enum RequestBodyObjectType {
-    case Customer
-    case Driver
-    case FareRequest
+struct RequestBodyObjectType {
+    static let Customer = true
+    static let Driver = true
+    static let FareRequest = true
 }

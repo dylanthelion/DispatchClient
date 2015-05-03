@@ -14,6 +14,8 @@ class UserData {
     
     var userID : String?
     var deviceID : String?
+    var phone : String?
+    var email : String?
     let fileManager = NSFileManager.defaultManager()
     
     class var getData : UserData {
@@ -33,6 +35,20 @@ class UserData {
     
     func setDeviceID(deviceID : String) {
         self.deviceID = deviceID
+        if(accountIsCreated() == true) {
+            saveUserData()
+        }
+    }
+    
+    func setPhone(phone : String) {
+        self.phone = phone
+        if(accountIsCreated() == true) {
+            saveUserData()
+        }
+    }
+    
+    func setEmail(email : String) {
+        self.email = email
         if(accountIsCreated() == true) {
             saveUserData()
         }
@@ -89,6 +105,14 @@ class UserData {
         
         if let checkDeviceID = deviceID {
             dictionaryToWrite["deviceID"] = deviceID!
+        }
+        
+        if let checkPhone = phone {
+            dictionaryToWrite["phone"] = phone!
+        }
+        
+        if let checkEmail = email {
+            dictionaryToWrite["email"] = email!
         }
         
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)

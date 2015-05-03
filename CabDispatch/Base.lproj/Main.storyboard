@@ -100,7 +100,7 @@
                                 </state>
                                 <connections>
                                     <action selector="submit:" destination="0HB-eK-5UR" eventType="touchUpInside" id="UuC-HV-PLE"/>
-                                    <segue destination="sHa-Qa-h3I" kind="show" id="QcR-SE-eAf"/>
+                                    <segue destination="sHa-Qa-h3I" kind="show" identifier="showCustomerInfo" id="QcR-SE-eAf"/>
                                 </connections>
                             </button>
                         </subviews>

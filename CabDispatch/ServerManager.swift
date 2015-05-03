@@ -32,12 +32,12 @@ class ServerManager {
         
         let controllerAction = action[1] as! String
         let requestType = action[0] as! String
-        var returnObject : NSMutableDictionary? = nil
+        var returnObject : NSDictionary? = nil
         
         var url : NSMutableURLRequest = NSMutableURLRequest(URL: buildURL(controller, action: controllerAction, params: params))
         url.HTTPMethod = requestType
         
-        if let checkRequestParameters = action[2] as? RequestBodyObjectType, checkForBody = requestBody {
+        if let checkRequestParameters = action[2] as? Bool, checkForBody = requestBody {
             var error : NSError?
             url.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody!, options: nil, error: &error)
         }
@@ -48,15 +48,37 @@ class ServerManager {
         var session = NSURLSession.sharedSession()
         var task = session.dataTaskWithRequest(url, completionHandler: {data, response, error -> Void in
             
+            //println("\(response)")
+            //println("\(data)")
+            
             var err : NSError?
-            var responseObject : NSMutableDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as! NSMutableDictionary
+            var responseString : NSString? = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            var stringLength : Int = responseString!.length
+            responseString = responseString?.substringToIndex(stringLength - 1)
+            responseString = responseString?.substringFromIndex(1)
+            
+            if let responseObject  = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSDictionary {
+                returnObject = responseObject
+                println("Dictionary get")
+            } else {
+                //println("String: \(responseString!)")
+                var backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
+                if let toJson = NSJSONSerialization.JSONObjectWithData(backToData!, options: .MutableContainers, error: nil) as? NSMutableDictionary {
+                    returnObject = toJson
+                } else {
+                    returnObject = NSMutableDictionary()
+                    
+                    returnObject?.setValue(responseString!, forKey: "Message")
+                    println("Message get")
+                }
+                
+            }
             
             
             if(err != nil) {
                 returnObject = NSMutableDictionary()
                 returnObject!.setValue("You done messed up", forKey: "Error")
-            } else {
-                returnObject = responseObject
+                println("Error get")
             }
         })
         
@@ -82,9 +104,11 @@ class ServerManager {
                 baseURL += value
                 baseURL += "&"
             }
+            
+            baseURL = baseURL.substringToIndex(baseURL.endIndex.predecessor())
         }
         
-        baseURL = baseURL.substringToIndex(baseURL.endIndex.predecessor())
+        
         
         return NSURL(string: baseURL)!
     }
