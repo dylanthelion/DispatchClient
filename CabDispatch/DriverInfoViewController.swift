@@ -18,6 +18,9 @@ class DriverInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userIDLabel.text = labelData[0]
+        errorLabel.text = labelData[1]
 
         // Do any additional setup after loading the view.
     }
