@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 private let globalUserData = UserData()
 
@@ -18,12 +19,19 @@ class UserData {
     var email : String?
     let fileManager = NSFileManager.defaultManager()
     
+    // used to preload maps
+    var currentLocation : CLLocation?
+    
     class var getData : UserData {
         return globalUserData
     }
     
     init() {
         loadUserData()
+    }
+    
+    func setCurrentLocation(location: CLLocation) {
+        self.currentLocation = location
     }
     
     func setUserID(userID : String) {

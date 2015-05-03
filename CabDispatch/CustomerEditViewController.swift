@@ -51,6 +51,8 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        let location = locationManager?.location
+        dataManager.setCurrentLocation(location!)
     }
     
 

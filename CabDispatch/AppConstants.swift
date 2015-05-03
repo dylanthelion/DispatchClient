@@ -45,7 +45,7 @@ struct AppConstants {
             static let AllFares = ("GET", "/AllFares")
             static let GetFare = ("GET", "/GetFare?")
             static let CustomersBy = ("GET", "/CustomersBy?")
-            static let AllEmptyDrivers = ("GET", "/AllEmptyDrivers")
+            static let AllEmptyDrivers = ("GET", "/AllEmptyDrivers?")
             static let RequestFare = ("POST", "/RequestFare", true)
             static let UpdateFare = ("PUT", "/UpdateFare?", true)
             static let AssignFare = ("PATCH", "/AssignFare?")

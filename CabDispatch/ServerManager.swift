@@ -37,9 +37,14 @@ class ServerManager {
         var url : NSMutableURLRequest = NSMutableURLRequest(URL: buildURL(controller, action: controllerAction, params: params))
         url.HTTPMethod = requestType
         
-        if let checkRequestParameters = action[2] as? Bool, checkForBody = requestBody {
-            var error : NSError?
-            url.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody!, options: nil, error: &error)
+        var sentURL = buildURL(controller, action: controllerAction, params: params)
+        println("URL: \(sentURL)")
+        
+        if let checkForBody = requestBody {
+            if(action.count > 2) {
+                var error : NSError?
+                url.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody!, options: nil, error: &error)
+            }
         }
         
         url.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -60,6 +65,16 @@ class ServerManager {
             if let responseObject  = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSDictionary {
                 returnObject = responseObject
                 println("Dictionary get")
+            } else if let responseObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSArray {
+                returnObject = NSMutableDictionary()
+                var count = responseObject.count
+                
+                for(var counter = 0; counter < count; counter++) {
+                    var key = "Driver\(counter)"
+                    returnObject?.setValue(responseObject[counter], forKey: key)
+                }
+                
+                
             } else {
                 //println("String: \(responseString!)")
                 var backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
@@ -88,6 +103,7 @@ class ServerManager {
             
         }
         
+        println("Return: \(returnObject!)")
         return returnObject!
     }
     
