@@ -12,9 +12,14 @@ import CoreLocation
 class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
     
     var locationManager : CLLocationManager?
+    
+    let dataManager = UserData.getData
+    let serverManager = ServerManager.defaultManager
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        startLocating()
 
         // Do any additional setup after loading the view.
     }
@@ -35,20 +40,66 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        dataManager.setCurrentLocation(manager.location)
     }
     
 
     @IBAction func createAccount(sender: AnyObject) {
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func submitUserData() -> Dictionary<String, String> {
+        var customerInfo = Dictionary<String, String>()
+        
+        if(dataManager.accountIsCreated() == true) {
+            let requestInfo = AppConstants.ControllerActions.CreateDriver
+            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+            var location = locationManager!.location
+            var driverObject = serverManager.buildDriverJSON(location)
+            var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
+            customerInfo["userID"] = dataManager.userID!
+        } else {
+            serverManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
+            let requestInfo = AppConstants.ControllerActions.CreateDriver
+            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+            var location = locationManager!.location
+            var driverObject = serverManager.buildDriverJSON(location)
+            var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
+            if let checkForDictionary = response["UserID"] as? Int {
+                dataManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
+                dataManager.setUserID("\(checkForDictionary)")
+                customerInfo["userID"] = "\(checkForDictionary)"
+            } else {
+                customerInfo["Error"] = "Submit failed"
+            }
+        }
+        
+        return customerInfo
     }
-    */
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier! == "submitDriverInfo") {
+            var customerInfo : Dictionary<String, String> = submitUserData()
+            
+            if let destination = segue.destinationViewController as? DriverInfoViewController {
+                if(customerInfo["Error"] != nil) {
+                    destination.labelData[1] = customerInfo["Error"]!
+                } else {
+                    destination.labelData[0] = customerInfo["userID"]!
+                }
+            }
+        } else if (segue.identifier! == "showDriverInfo") {
+            var customerInfo : Dictionary<String, String> = submitUserData()
+            
+            if let destination = segue.destinationViewController as? DriverInfoViewController {
+                if let checkUserID = dataManager.userID {
+                    destination.labelData[0] = dataManager.userID!
+                } else {
+                    destination.labelData[0] = "No User ID"
+                }
+            }
+        }
+    }
+    
 
 }

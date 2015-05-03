@@ -237,9 +237,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PB5-0M-o6m">
-                                <rect key="frame" x="0.0" y="64" width="600" height="389"/>
-                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HG2-E4-2pc">
                                 <rect key="frame" x="84" y="495" width="135" height="30"/>
                                 <state key="normal" title="Request!">
@@ -265,6 +262,9 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PB5-0M-o6m">
+                                <rect key="frame" x="0.0" y="64" width="600" height="389"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -362,7 +362,16 @@
                                 </state>
                                 <connections>
                                     <action selector="createAccount:" destination="YrR-Dk-wYt" eventType="touchUpInside" id="BYe-Cd-7Zz"/>
-                                    <segue destination="oUy-rN-qS0" kind="show" id="nRl-aW-A12"/>
+                                    <segue destination="oUy-rN-qS0" kind="show" identifier="submitDriverInfo" id="nRl-aW-A12"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNw-Ub-Nwb">
+                                <rect key="frame" x="215" y="484" width="203" height="30"/>
+                                <state key="normal" title="View Account Info">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="oUy-rN-qS0" kind="show" identifier="showDriverInfo" id="uej-yJ-UuR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -395,7 +404,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sym-Al-43O">
                                 <rect key="frame" x="210" y="230" width="225" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.8212267287234043" green="0.13584214318194299" blue="0.26314957212718149" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -554,6 +563,7 @@
         <image name="User" width="199" height="253"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="uej-yJ-UuR"/>
         <segue reference="qig-Mn-q0U"/>
     </inferredMetricsTieBreakers>
 </document>

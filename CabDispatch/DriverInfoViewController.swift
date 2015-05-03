@@ -14,6 +14,8 @@ class DriverInfoViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    var labelData = ["", ""]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
