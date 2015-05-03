@@ -25,6 +25,8 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        phoneTextField.delegate = self
+        emailTextField.delegate = self
         
         startLocating()
         buildMap()
@@ -69,7 +71,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         
         for(key, value) in drivers {
             if let driver = value as? Dictionary<String, AnyObject> {
-                println("Driver: \(driver)")
+                //println("Driver: \(driver)")
                 
                 if let driverLocation = driver["Location"] as? Dictionary<String, AnyObject> {
                     var latSign = driverLocation["Latitude_sign"] as! String
@@ -138,6 +140,11 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
         
         return dictionaryToReturn as! Dictionary<String, AnyObject>
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {

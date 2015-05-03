@@ -182,7 +182,7 @@ class ServerManager {
         return driverDictionary
     }
     
-    func buildFareRequestJSON(location: CLLocation, destination : CLLocation, customerID : Int?, phone : String?, email : String?) -> Dictionary<String, AnyObject> {
+    func buildFareRequestJSON(location: CLLocation, destination : CLLocation, customerID : String?, phone : String?, email : String?) -> Dictionary<String, AnyObject> {
         var fareDictionary = Dictionary<String, AnyObject>()
         
         var customerDictionary = buildCustomerJSON(location, phone: phone, email: email)
