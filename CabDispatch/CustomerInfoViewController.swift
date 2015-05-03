@@ -15,14 +15,21 @@ class CustomerInfoViewController: UIViewController {
     @IBOutlet weak var phoneOrErrorLabel: UILabel!
     
     @IBOutlet weak var emailLabel: UILabel!
-    
-    var invalidSubmit : Bool = false
     var dataManager = UserData.getData
+    var labelData = ["", "", ""]
+    var validSubmission = true
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        userIDLabel.text = labelData[0]
+        phoneOrErrorLabel.text = labelData[1]
+        emailLabel.text = labelData[2]
+        
+        if(validSubmission == false) {
+            phoneOrErrorLabel.textColor = UIColor.redColor()
+        }
         // Do any additional setup after loading the view.
     }
 

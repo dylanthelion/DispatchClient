@@ -100,7 +100,16 @@
                                 </state>
                                 <connections>
                                     <action selector="submit:" destination="0HB-eK-5UR" eventType="touchUpInside" id="UuC-HV-PLE"/>
-                                    <segue destination="sHa-Qa-h3I" kind="show" identifier="showCustomerInfo" id="QcR-SE-eAf"/>
+                                    <segue destination="sHa-Qa-h3I" kind="show" identifier="submitCustomerInfo" id="QcR-SE-eAf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKk-kA-LH4">
+                                <rect key="frame" x="410" y="414" width="121" height="30"/>
+                                <state key="normal" title="View Info">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="sHa-Qa-h3I" kind="show" identifier="showCustomerInfo" id="qig-Mn-q0U"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -129,19 +138,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Phone or Error" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L3F-RZ-g4n">
-                                <rect key="frame" x="245" y="235" width="186" height="21"/>
+                                <rect key="frame" x="245" y="235" width="292" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WsI-jV-bep">
-                                <rect key="frame" x="279" y="386" width="186" height="21"/>
+                                <rect key="frame" x="279" y="364" width="280" height="43"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User ID" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Xg-DA-qpn">
-                                <rect key="frame" x="294" y="118" width="178" height="21"/>
+                                <rect key="frame" x="181" y="99" width="378" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -544,4 +553,7 @@
         <image name="Cab" width="360" height="180"/>
         <image name="User" width="199" height="253"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="qig-Mn-q0U"/>
+    </inferredMetricsTieBreakers>
 </document>

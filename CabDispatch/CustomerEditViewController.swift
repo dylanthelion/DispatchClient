@@ -59,12 +59,58 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier! == "showCustomerInfo") {
+        if(segue.identifier! == "submitCustomerInfo") {
             var customerInfo : Dictionary<String, String> = submitUserData()
+            
+            if(customerInfo["phone"] == nil) {
+                if let checkPhone = dataManager.phone {
+                    customerInfo["phone"] = dataManager.phone!
+                } else {
+                    customerInfo["phone"] = "No user data"
+                }
+            }
+            
+            if(customerInfo["email"] == nil) {
+                if let checkEmail = dataManager.email {
+                    customerInfo["email"] = dataManager.email!
+                } else {
+                    customerInfo["email"] = "No user data"
+                }
+            }
             
             if let destination = segue.destinationViewController as? CustomerInfoViewController {
                 if customerInfo["Error"] != nil {
-                    destination.invalidSubmit = true
+                    destination.labelData[1] = customerInfo["Error"]!
+                    destination.validSubmission = false
+                    destination.labelData[0] = ""
+                    destination.labelData[2] = ""
+                } else {
+                    var userID = customerInfo["userID"]!
+                    var phone = customerInfo["phone"]!
+                    var email = customerInfo["email"]!
+                    destination.labelData[0] = "User ID : \(userID)"
+                    destination.labelData[1] = "Phone: \(phone)"
+                    destination.labelData[2] = "Email: \(email)"
+                }
+            }
+        } else {
+            if let destination = segue.destinationViewController as? CustomerInfoViewController {
+                if let checkUserID = dataManager.userID {
+                    destination.labelData[0] = "User ID: \(dataManager.userID!)"
+                } else {
+                    destination.labelData[0] = "No User ID"
+                }
+                
+                if let checkPhone = dataManager.phone {
+                    destination.labelData[1] = "Phone: \(dataManager.phone!)"
+                } else {
+                    destination.labelData[1] = "No phone sent"
+                }
+                
+                if let checkEmail = dataManager.email {
+                    destination.labelData[2] = "Email: \(dataManager.email!)"
+                } else {
+                    destination.labelData[2] = "No email sent"
                 }
             }
         }
@@ -79,11 +125,13 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         if(phoneTextField.text != "") {
             phone = phoneTextField.text
             dataManager.phone = phoneTextField.text
+            customerInfo["phone"] = phoneTextField.text
         }
         
         if(emailTextField.text != "") {
             email = emailTextField.text
             dataManager.email = emailTextField.text
+            customerInfo["email"] = emailTextField.text
         }
         
         if(dataManager.accountIsCreated() == true) {
