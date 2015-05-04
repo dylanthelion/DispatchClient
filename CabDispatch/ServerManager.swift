@@ -33,6 +33,7 @@ class ServerManager {
         let controllerAction = action[1] as! String
         let requestType = action[0] as! String
         var returnObject : NSDictionary? = nil
+        var isDone : Bool = false
         
         var url : NSMutableURLRequest = NSMutableURLRequest(URL: buildURL(controller, action: controllerAction, params: params))
         url.HTTPMethod = requestType
@@ -66,17 +67,40 @@ class ServerManager {
                 returnObject = responseObject
                 println("Dictionary get")
             } else if let responseObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSArray {
-                returnObject = NSMutableDictionary()
+                var holderDictionary = NSMutableDictionary()
                 var count = responseObject.count
                 
                 for(var counter = 0; counter < count; counter++) {
-                    var key = "Driver\(counter)"
-                    returnObject?.setValue(responseObject[counter], forKey: key)
+                    if let checkDictionary = responseObject[counter] as? Dictionary<String, AnyObject> {
+                        if let checkCustomer = checkDictionary["Customer"] as? Dictionary<String, AnyObject>, checkDestination = checkDictionary["Destination"] as? Dictionary<String, AnyObject> {
+                            var fare = Dictionary<String, AnyObject>()
+                            fare["Location"] = checkCustomer["Location"]
+                            fare["Destination"] = checkDictionary["Destination"]
+                            var id = checkDictionary["FareNumber"] as! Int
+                            var key = "\(id)"
+                            holderDictionary.setValue(fare, forKey: key)
+                            //println("Response is now: \(returnObject!)")
+                            
+                            //println("Dictionary: \(checkDictionary)")
+                            /*var location = checkDictionary["Location"] as? Dictionary<String, AnyObject>
+                            println("Location: \(location!)")*/
+                            println("Fare get")
+                            //println("Fare: \(fare)")
+                        } else {
+                            var key = "Driver\(counter)"
+                            holderDictionary.setValue(responseObject[counter], forKey: key)
+                            println("Object: \(responseObject[counter])")
+                            println("Driver get")
+                            //println("Response is now: \(returnObject!)")
+                        }
+                    }
+                    
                 }
-                
+                println("Array get")
+                returnObject = holderDictionary
                 
             } else {
-                //println("String: \(responseString!)")
+                println("String: \(responseString!)")
                 var backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
                 if let toJson = NSJSONSerialization.JSONObjectWithData(backToData!, options: .MutableContainers, error: nil) as? NSMutableDictionary {
                     returnObject = toJson
