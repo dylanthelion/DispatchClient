@@ -30,6 +30,8 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         
         startLocating()
         buildMap()
+        
+        buildLogoutButton()
 
         // Do any additional setup after loading the view.
     }
@@ -149,6 +151,15 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func signup(sender: AnyObject) {

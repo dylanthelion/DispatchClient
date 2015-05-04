@@ -20,12 +20,23 @@ class DriverAssignedFaresViewController: UIViewController {
         super.viewDidLoad()
         labelHeight = 50
         buildFareList()
+        
+        buildLogoutButton()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func buildFareList() {

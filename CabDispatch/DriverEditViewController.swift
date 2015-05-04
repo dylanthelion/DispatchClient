@@ -20,6 +20,8 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
         super.viewDidLoad()
         
         startLocating()
+        
+        buildLogoutButton()
 
         // Do any additional setup after loading the view.
     }
@@ -37,6 +39,15 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.requestAlwaysAuthorization()
         locationManager?.startMonitoringSignificantLocationChanges()
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {

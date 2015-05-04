@@ -28,6 +28,8 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         
         startLocating()
         buildMap()
+        
+        buildLogoutButton()
 
         // Do any additional setup after loading the view.
     }
@@ -45,6 +47,15 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         locationManager?.requestAlwaysAuthorization()
         locationManager?.startMonitoringSignificantLocationChanges()
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func buildMap() {

@@ -26,6 +26,8 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         
         phoneTextField.delegate = self
         emailTextField.delegate = self
+        
+        buildLogoutButton()
 
         // Do any additional setup after loading the view.
     }
@@ -53,6 +55,15 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let location = locationManager?.location
         dataManager.setCurrentLocation(location!)
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
 

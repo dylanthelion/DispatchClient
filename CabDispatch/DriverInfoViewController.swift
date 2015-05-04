@@ -21,6 +21,8 @@ class DriverInfoViewController: UIViewController {
         
         userIDLabel.text = labelData[0]
         errorLabel.text = labelData[1]
+        
+        buildLogoutButton()
 
         // Do any additional setup after loading the view.
     }
@@ -28,6 +30,15 @@ class DriverInfoViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func buildLogoutButton() {
+        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        self.navigationItem.rightBarButtonItem = logoutButton
+    }
+    
+    func logout() {
+        self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
 
