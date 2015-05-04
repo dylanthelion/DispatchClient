@@ -127,7 +127,7 @@ class ServerManager {
             
         }
         
-        println("Return: \(returnObject!)")
+        //println("Return: \(returnObject!)")
         return returnObject!
     }
     

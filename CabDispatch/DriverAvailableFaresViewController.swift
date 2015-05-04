@@ -66,7 +66,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     
     func buildAnnotations() {
         var allFares = getFares("location")
-        println("Fares: \(allFares)")
+        //println("Fares: \(allFares)")
         
         for(key, value) in allFares {
             if let fare = value as? Dictionary<String, AnyObject> {
