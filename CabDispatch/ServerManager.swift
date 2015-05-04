@@ -84,7 +84,7 @@ class ServerManager {
                             //println("Dictionary: \(checkDictionary)")
                             /*var location = checkDictionary["Location"] as? Dictionary<String, AnyObject>
                             println("Location: \(location!)")*/
-                            println("Fare get")
+                            //println("Fare get")
                             //println("Fare: \(fare)")
                         } else {
                             var key = "Driver\(counter)"

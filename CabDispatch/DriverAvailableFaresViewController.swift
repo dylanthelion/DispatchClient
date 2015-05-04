@@ -15,16 +15,19 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     var locationManager : CLLocationManager?
     let dataManager = UserData.getData
     let serverManager = ServerManager.defaultManager
-    var startingAnnotations : [MKPointAnnotation]?
-    var destinationAnnotations: [MKPointAnnotation]?
+    var startingAnnotations : [MKAnnotationView]?
+    var destinationAnnotations: [MKAnnotationView]?
+    var pinImage : UIImage?
+    var originPinImage : UIImage?
+    var destinationPinImage : UIImage?
 
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startingAnnotations = [MKPointAnnotation]()
-        destinationAnnotations = [MKPointAnnotation]()
+        startingAnnotations = [MKAnnotationView]()
+        destinationAnnotations = [MKAnnotationView]()
         
         startLocating()
         buildMap()
@@ -59,6 +62,8 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     }
     
     func buildMap() {
+        mapView.delegate = self
+        
         let span = MKCoordinateSpanMake(0.5, 0.5)
         let myLocation = locationManager?.location
         var myCoords : CLLocationCoordinate2D
@@ -82,6 +87,9 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         for(key, value) in allFares {
             if let fare = value as? Dictionary<String, AnyObject> {
                 if let startingPoint = fare["Location"] as? Dictionary<String, AnyObject>, destination = fare["Destination"] as? Dictionary<String, AnyObject> {
+                    //println("Origin: \(startingPoint)")
+                    //println("Destination: \(destination)")
+                    
                     var startingLatSign = startingPoint["Latitude_sign"] as! String
                     var startingLongSign = startingPoint["Longitude_sign"] as! String
                     var startingLat = startingPoint["Latitude"] as! Double
@@ -111,18 +119,80 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
                     let startingCoords = CLLocationCoordinate2DMake(startingLat, startingLong)
                     let startingAnnotation = MKPointAnnotation()
                     startingAnnotation.coordinate = startingCoords
+                    startingAnnotation.title = "Origin\(key)"
                     mapView.addAnnotation(startingAnnotation)
-                    startingAnnotations?.append(startingAnnotation)
                     
                     
                     let destinationCoords = CLLocationCoordinate2DMake(destinationLat, destinationLong)
                     let destinationAnnotation = MKPointAnnotation()
                     destinationAnnotation.coordinate = destinationCoords
+                    destinationAnnotation.title = "Destination\(key)"
                     mapView.addAnnotation(destinationAnnotation)
-                    destinationAnnotations?.append(destinationAnnotation)
                 }
             }
         }
+    }
+    
+    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+        let startIndex = view.reuseIdentifier.startIndex
+        if(view.reuseIdentifier[startIndex] == "O") {
+            //println("Origin: \(view.reuseIdentifier)")
+            view.image = originPinImage!
+            let index = advance(startIndex, 6)
+            let range = index..<view.reuseIdentifier.endIndex
+            let id = view.reuseIdentifier.substringWithRange(range)
+            let destinationReuseID = "Destination\(id)"
+            for ann in destinationAnnotations! {
+                if(ann.reuseIdentifier == destinationReuseID) {
+                    println("Destination: \(ann.reuseIdentifier)")
+                    ann.image = pinImage!
+                } else {
+                    ann.image = destinationPinImage!
+                }
+            }
+        } else {
+            view.image = destinationPinImage!
+            //println("Destination: \(view.reuseIdentifier)")
+            let index = advance(startIndex, 11)
+            let range = index..<view.reuseIdentifier.endIndex
+            let id = view.reuseIdentifier.substringWithRange(range)
+            let originReuseID = "Origin\(id)"
+            for ann in startingAnnotations! {
+                if(ann.reuseIdentifier == originReuseID) {
+                    println("Origin: \(ann.reuseIdentifier)")
+                    ann.image = pinImage!
+                } else {
+                    ann.image = originPinImage!
+                }
+            }
+        }
+    }
+    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if(!(annotation is MKPointAnnotation)) {
+            return nil
+        }
+        
+        var reuseID = annotation.title!
+        
+        var ann = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
+        
+        if(ann == nil && reuseID[reuseID.startIndex] == "O") {
+            var pinAnn = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            pinImage = pinAnn.image
+            pinAnn.pinColor = MKPinAnnotationColor.Green
+            originPinImage = pinAnn.image
+            ann = pinAnn
+            startingAnnotations?.append(ann)
+        } else {
+            var pinAnn = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            pinAnn.pinColor = MKPinAnnotationColor.Purple
+            destinationPinImage = pinAnn.image
+            ann = pinAnn
+            destinationAnnotations?.append(ann)
+        }
+        
+        return ann
     }
     
     func getFares(filter : String?) -> Dictionary<String, AnyObject> {
