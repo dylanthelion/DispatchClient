@@ -20,6 +20,8 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     var pinImage : UIImage?
     var originPinImage : UIImage?
     var destinationPinImage : UIImage?
+    var fareCustomerIDs : Dictionary<String, String>?
+    var selectedFareID : String?
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -28,6 +30,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         
         startingAnnotations = [MKAnnotationView]()
         destinationAnnotations = [MKAnnotationView]()
+        fareCustomerIDs = Dictionary<String, String>()
         
         startLocating()
         buildMap()
@@ -85,10 +88,15 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         //println("Fares: \(allFares)")
         
         for(key, value) in allFares {
+            //println("Value: \(value)")
             if let fare = value as? Dictionary<String, AnyObject> {
                 if let startingPoint = fare["Location"] as? Dictionary<String, AnyObject>, destination = fare["Destination"] as? Dictionary<String, AnyObject> {
                     //println("Origin: \(startingPoint)")
                     //println("Destination: \(destination)")
+                    //println("Fare: \(fare)")
+                    //println("Value: \(value)")
+                    let user = value["UserID"] as! String
+                    fareCustomerIDs![key] = user
                     
                     var startingLatSign = startingPoint["Latitude_sign"] as! String
                     var startingLongSign = startingPoint["Longitude_sign"] as! String
@@ -141,6 +149,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
             let index = advance(startIndex, 6)
             let range = index..<view.reuseIdentifier.endIndex
             let id = view.reuseIdentifier.substringWithRange(range)
+            selectedFareID = id
             let destinationReuseID = "Destination\(id)"
             for ann in destinationAnnotations! {
                 if(ann.reuseIdentifier == destinationReuseID) {
@@ -156,6 +165,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
             let index = advance(startIndex, 11)
             let range = index..<view.reuseIdentifier.endIndex
             let id = view.reuseIdentifier.substringWithRange(range)
+            selectedFareID = id
             let originReuseID = "Origin\(id)"
             for ann in startingAnnotations! {
                 if(ann.reuseIdentifier == originReuseID) {
@@ -213,6 +223,23 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     }
 
     @IBAction func acceptChosenFare(sender: AnyObject) {
+        println("Accept")
+        if let driver = dataManager.userID {
+            println("\(driver)")
+        }
+        if let fareID = selectedFareID {
+            println("\(fareID)")
+        }
+        if let driver = dataManager.userID, fareID = selectedFareID {
+            let controller = AppConstants.ServerControllers.Driver
+            let action = AppConstants.ControllerActions.AcceptFare
+            let actions = [action.0, action.1]
+            var params = Dictionary<String, String>()
+            params["driverID"] = driver
+            params["customerID"] = fareCustomerIDs![fareID]
+            var response = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
+            println("Response: \(response)")
+        }
     }
     
     

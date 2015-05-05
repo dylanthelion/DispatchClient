@@ -72,10 +72,14 @@ class ServerManager {
                 
                 for(var counter = 0; counter < count; counter++) {
                     if let checkDictionary = responseObject[counter] as? Dictionary<String, AnyObject> {
+                        //println("Object: \(checkDictionary)")
                         if let checkCustomer = checkDictionary["Customer"] as? Dictionary<String, AnyObject>, checkDestination = checkDictionary["Destination"] as? Dictionary<String, AnyObject> {
                             var fare = Dictionary<String, AnyObject>()
                             fare["Location"] = checkCustomer["Location"]
                             fare["Destination"] = checkDictionary["Destination"]
+                            let user = checkDictionary["Customer_ID"] as! Int
+                            let userAsString : String = "\(user)"
+                            fare["UserID"] = userAsString
                             var id = checkDictionary["FareNumber"] as! Int
                             var key = "\(id)"
                             holderDictionary.setValue(fare, forKey: key)
