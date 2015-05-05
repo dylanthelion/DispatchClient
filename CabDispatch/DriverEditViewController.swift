@@ -75,12 +75,14 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
             var location = locationManager!.location
             var driverObject = serverManager.buildDriverJSON(location)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
-            if let checkForDictionary = response["UserID"] as? Int {
+            if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
+            if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
                 dataManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
                 dataManager.setUserID("\(checkForDictionary)")
                 customerInfo["userID"] = "\(checkForDictionary)"
             } else {
                 customerInfo["Error"] = "Submit failed"
+            }
             }
         }
         

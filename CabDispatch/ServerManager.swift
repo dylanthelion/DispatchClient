@@ -93,7 +93,7 @@ class ServerManager {
                         } else {
                             var key = "Driver\(counter)"
                             holderDictionary.setValue(responseObject[counter], forKey: key)
-                            println("Object: \(responseObject[counter])")
+                            //println("Object: \(responseObject[counter])")
                             println("Driver get")
                             //println("Response is now: \(returnObject!)")
                         }
@@ -104,7 +104,7 @@ class ServerManager {
                 returnObject = holderDictionary
                 
             } else {
-                println("String: \(responseString!)")
+                //println("String: \(responseString!)")
                 var backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
                 if let toJson = NSJSONSerialization.JSONObjectWithData(backToData!, options: .MutableContainers, error: nil) as? NSMutableDictionary {
                     returnObject = toJson

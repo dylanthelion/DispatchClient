@@ -161,12 +161,18 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
             var location = locationManager?.location
             var customerObject = serverManager.buildCustomerJSON(location!, phone: phone, email: email)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject)
-            if let checkForDictionary = response["UserID"] as? Int {
+            println("Response: \(response)")
+            if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
+                
+            
+            if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
+                println("\(checkForDictionary)")
                 dataManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
                 dataManager.setUserID("\(checkForDictionary)")
                 customerInfo["userID"] = "\(checkForDictionary)"
             } else {
                 customerInfo["Error"] = "Submit failed"
+            }
             }
         }
         

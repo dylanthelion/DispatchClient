@@ -224,12 +224,12 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
 
     @IBAction func acceptChosenFare(sender: AnyObject) {
         println("Accept")
-        if let driver = dataManager.userID {
+        /*if let driver = dataManager.userID {
             println("\(driver)")
         }
         if let fareID = selectedFareID {
             println("\(fareID)")
-        }
+        }*/
         if let driver = dataManager.userID, fareID = selectedFareID {
             let controller = AppConstants.ServerControllers.Driver
             let action = AppConstants.ControllerActions.AcceptFare

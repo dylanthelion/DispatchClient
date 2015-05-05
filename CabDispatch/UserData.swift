@@ -27,6 +27,7 @@ class UserData {
     }
     
     init() {
+        println("Init user data")
         loadUserData()
     }
     
@@ -83,9 +84,9 @@ class UserData {
     
     func loadUserData() {
         let path = documentDirectoryPath().URLByAppendingPathComponent("UserData.plist")
-        
         if(fileManager.fileExistsAtPath(path.path!)) {
             loadFromAppDirectory()
+            println("Loaded user data")
         }
     }
     
@@ -103,6 +104,7 @@ class UserData {
     }
     
     func saveUserData() {
+        println("Save data")
         let path = documentDirectoryPath().URLByAppendingPathComponent("/UserData.plist")
         
         var dictionaryToWrite = [String:String]()
