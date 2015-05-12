@@ -55,7 +55,7 @@ class ServerManager {
         var task = session.dataTaskWithRequest(url, completionHandler: {data, response, error -> Void in
             
             //println("\(response)")
-            println("\(data)")
+            //println("\(data)")
             
             var err : NSError?
             var responseString : NSString? = NSString(data: data!, encoding: NSUTF8StringEncoding)

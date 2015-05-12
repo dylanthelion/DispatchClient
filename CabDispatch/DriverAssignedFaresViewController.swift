@@ -15,6 +15,7 @@ class DriverAssignedFaresViewController: UIViewController {
     let width = UIScreen.mainScreen().bounds.width
     let height = UIScreen.mainScreen().bounds.height
     var labelHeight : CGFloat = 0.0
+    var fareLabels : [UILabel]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,18 +56,26 @@ class DriverAssignedFaresViewController: UIViewController {
                 view.addSubview(label)
             } else {
                 println("Haz fares")
-                println("Fares: \(fares)")
+                fareLabels = [UILabel]()
+                //println("Fares: \(fares)")
                 var labelCount : CGFloat = 0
                 for(key, value) in fares {
                     var yCoord : CGFloat = labelHeight * labelCount
                     yCoord = yCoord + 75
                     
                     let label = UILabel(frame: CGRectMake(0, yCoord, width, labelHeight))
-                    let labelText = "\(key) : \(value)"
+                    var labelText : String = "\(key)"
+                    if let checkValue = value as? Dictionary<String, AnyObject> {
+                        labelText = buildStringFromDictionary(checkValue, labelText)
+                    } else {
+                        labelText += "Error"
+                    }
+                    
                     
                     label.text = labelText
                     
                     view.addSubview(label)
+                    fareLabels?.append(label)
                     labelCount = labelCount + 1
                 }
             }
@@ -75,6 +84,19 @@ class DriverAssignedFaresViewController: UIViewController {
             let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
             label.text = "No user account created"
             view.addSubview(label)
+        }
+    }
+    
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        if let checkLabels = fareLabels {
+            var labelCount : CGFloat = 0
+            for label in fareLabels! {
+                var yCoord : CGFloat = labelCount * labelHeight
+                yCoord = yCoord + 75
+                
+                label.frame = CGRectMake(0, yCoord, height, labelHeight)
+                labelCount += 1
+            }
         }
     }
     
