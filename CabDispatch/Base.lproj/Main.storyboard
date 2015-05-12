@@ -78,7 +78,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="signinDriver:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Sxg-qF-913"/>
                                     <segue destination="qhl-pj-LLQ" kind="show" identifier="driverSignin" id="jxt-oV-5UA"/>
                                 </connections>
                             </button>
@@ -142,7 +141,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="signinCustomer:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="72e-Jj-4qv"/>
                                     <segue destination="sFB-hR-K6j" kind="show" identifier="customerSignin" id="BFG-xg-2vB"/>
                                 </connections>
                             </button>

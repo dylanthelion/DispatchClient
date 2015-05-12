@@ -33,34 +33,16 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-
-    @IBAction func signinCustomer(sender: AnyObject) {
-        let deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
-    }
-    
-    @IBAction func signinDriver(sender: AnyObject) {
-        
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+        
         if(identifier! == "driverSignin") {
-            if(passwordTextField.text == "password") {
-                passwordIsValid = true
+            
+            if(checkPassword()) {
+                return true
             }
             
-            if(passwordIsValid == false) {
-                badPasswordAlert()
-                return false
-            }
+            badPasswordAlert()
+            return false
         }
         
         return true
@@ -71,6 +53,14 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func checkPassword() -> Bool {
+        if(passwordTextField.text == "password") {
+            return true
+        }
+        
+        return false
     }
 
 }

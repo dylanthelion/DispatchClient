@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 private let globalUserData = UserData()
 
@@ -29,6 +30,7 @@ class UserData {
     init() {
         println("Init user data")
         loadUserData()
+        deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
     }
     
     func setCurrentLocation(location: CLLocation) {
