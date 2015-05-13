@@ -131,7 +131,7 @@ class UserData {
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)
     }
     
-    func submitCustomer(location: CLLocation, phone : String?, email : String?) {
+    func submitCustomer(phone : String?, email : String?) {
         
         
         if(accountIsCreated()) {
@@ -139,7 +139,7 @@ class UserData {
             let requestInfo = AppConstants.ControllerActions.PatchCustomer
             var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
             
-            let customerObject = serverManager.buildCustomerJSON(location, phone: phone, email: email)
+            let customerObject = serverManager.buildCustomerJSON(self.currentLocation!, phone: phone, email: email)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
             
             updateCustomerInfo(phone, email: email, userID: nil)
@@ -153,7 +153,7 @@ class UserData {
             let requestInfo = AppConstants.ControllerActions.CreateCustomer
             var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
             
-            var customerObject = serverManager.buildCustomerJSON(location, phone: phone, email: email)
+            var customerObject = serverManager.buildCustomerJSON(self.currentLocation!, phone: phone, email: email)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
             
             if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
@@ -209,5 +209,29 @@ class UserData {
         if let checkEmail = email {
             self.email = email!
         }
+    }
+    
+    func buildLocationParams() -> Dictionary<String, String> {
+        
+        var paramsToReturn = Dictionary<String, String>()
+        
+        if let location = currentLocation {
+            paramsToReturn["Latitude"] = "\(currentLocation?.coordinate.latitude)"
+            paramsToReturn["Longitude"] = "\(currentLocation?.coordinate.longitude)"
+            
+            if(currentLocation?.coordinate.latitude >= 0) {
+                paramsToReturn["Latitude_sign"] = "%2B"
+            } else {
+                paramsToReturn["Latitude_sign"] = "%2D"
+            }
+            
+            if(currentLocation?.coordinate.longitude >= 0) {
+                paramsToReturn["Longitude_sign"] = "%2D"
+            } else {
+                paramsToReturn["Longitude_sign"] = "%2B"
+            }
+        }
+        
+        return paramsToReturn
     }
 }

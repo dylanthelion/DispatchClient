@@ -15,6 +15,7 @@ class CustomerInfoViewController: UIViewController {
     @IBOutlet weak var phoneOrErrorLabel: UILabel!
     
     @IBOutlet weak var emailLabel: UILabel!
+    
     var dataManager = UserData.getData
     var labelData = ["", "", ""]
     var validSubmission = true

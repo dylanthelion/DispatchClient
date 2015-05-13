@@ -71,7 +71,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
             email = emailTextField.text
         }
         
-        dataManager.submitCustomer(locationManager.location, phone: phone, email: email)
+        dataManager.submitCustomer(phone, email: email)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -18,7 +18,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     @IBOutlet weak var emailTextField: UITextField!
     
-    var locationManager : CLLocationManager?
+    let locationManager = GlobalLocationManager.appLocationManager
     let dataManager = UserData.getData
     let serverManager = ServerManager.defaultManager
     
@@ -42,18 +42,12 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     func startLocating() {
-        locationManager = CLLocationManager()
-        
-        locationManager?.delegate = self
-        
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.startMonitoringSignificantLocationChanges()
+        locationManager.startLocating(self)
     }
     
     func buildMap() {
         let span = MKCoordinateSpanMake(0.5, 0.5)
-        let myLocation = locationManager?.location
+        let myLocation = locationManager.location
         var myCoords : CLLocationCoordinate2D
         if let checkLocation = dataManager.currentLocation {
             myCoords = checkLocation.coordinate
@@ -100,45 +94,18 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     func getDrivers() -> Dictionary<String, AnyObject> {
+        
         let controller = AppConstants.ServerControllers.FareRequest
         let action = AppConstants.ControllerActions.AllEmptyDrivers
         let actions = [action.0, action.1]
         var params : Dictionary<String, String> = Dictionary<String, String>()
         
-        if let loc = dataManager.currentLocation {
-            params["Latitude"] = "\(loc.coordinate.latitude)"
-            params["Longitude"] = "\(loc.coordinate.longitude)"
-            
-            if(loc.coordinate.latitude >= 0) {
-                params["Latitude_sign"] = "%2B"
-            } else {
-                params["Latitude_sign"] = "%2D"
-            }
-            
-            if(loc.coordinate.longitude >= 0) {
-                params["Longitude_sign"] = "%2D"
-            } else {
-                params["Longitude_sign"] = "%2B"
-            }
+        if(dataManager.currentLocation == nil) {
+            dataManager.setCurrentLocation(locationManager.location)
         }
         
-        else {
-            let loc = locationManager?.location
-            params["Latitude"] = "\(loc!.coordinate.latitude)"
-            params["Longitude"] = "\(loc!.coordinate.longitude)"
-            
-            if(loc!.coordinate.latitude >= 0) {
-                params["Latitude_sign"] = "%2B"
-            } else {
-                params["Latitude_sign"] = "%2D"
-            }
-            
-            if(loc!.coordinate.longitude >= 0) {
-                params["Longitude_sign"] = "%2D"
-            } else {
-                params["Longitude_sign"] = "%2B"
-            }
-        }
+        params = dataManager.buildLocationParams()
+        
         var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
         
         return dictionaryToReturn as! Dictionary<String, AnyObject>
@@ -150,7 +117,9 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
+        locationManager.isLocating = true
+        let location = locationManager.location
+        dataManager.setCurrentLocation(location!)
     }
     
     func buildLogoutButton() {
@@ -163,11 +132,6 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     @IBAction func signup(sender: AnyObject) {
-        var response = submitUserData()
-        println("Response: \(response)")
-    }
-    
-    func submitUserData() -> Dictionary<String, String> {
         var email : String? = nil
         var phone : String? = nil
         
@@ -175,45 +139,14 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         
         if(phoneTextField.text != "") {
             phone = phoneTextField.text
-            dataManager.phone = phoneTextField.text
-            customerInfo["phone"] = phoneTextField.text
         }
         
         if(emailTextField.text != "") {
             email = emailTextField.text
-            dataManager.email = emailTextField.text
-            customerInfo["email"] = emailTextField.text
         }
         
-        if(dataManager.accountIsCreated() == true) {
-            let requestInfo = AppConstants.ControllerActions.PatchCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager?.location
-            var customerObject = serverManager.buildCustomerJSON(location!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject)
-            customerInfo["userID"] = dataManager.userID!
-        } else {
-            serverManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
-            let requestInfo = AppConstants.ControllerActions.CreateCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager?.location
-            var customerObject = serverManager.buildCustomerJSON(location!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject)
-            if let checkForDictionary = response["UserID"] as? Int {
-                dataManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
-                dataManager.setUserID("\(checkForDictionary)")
-                customerInfo["userID"] = "\(checkForDictionary)"
-            } else {
-                customerInfo["Error"] = "Submit failed"
-            }
-        }
-        
-        return customerInfo
+        dataManager.submitCustomer(phone, email: email)
     }
-
-    
-    
-
 
 }
  
