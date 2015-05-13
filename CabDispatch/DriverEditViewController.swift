@@ -11,7 +11,7 @@ import CoreLocation
 
 class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
     
-    var locationManager : CLLocationManager?
+    var locationManager = GlobalLocationManager.appLocationManager
     
     let dataManager = UserData.getData
     let serverManager = ServerManager.defaultManager
@@ -32,13 +32,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
     }
     
     func startLocating() {
-        locationManager = CLLocationManager()
-        
-        locationManager?.delegate = self
-        
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.startMonitoringSignificantLocationChanges()
+        locationManager.startLocating(self)
     }
     
     func buildLogoutButton() {
@@ -51,20 +45,28 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        dataManager.setCurrentLocation(manager.location)
+        locationManager.isLocating = true
+        let location = locationManager.location
+        dataManager.currentLocation = location
     }
     
 
     @IBAction func createAccount(sender: AnyObject) {
+        if(dataManager.accountIsCreated() == true) {
+            println("Patch driver")
+            serverManager.updateDriver(locationManager.location)
+        } else {
+            serverManager.createDriver(locationManager.location)
+        }
     }
     
-    func submitUserData() -> Dictionary<String, String> {
-        var customerInfo = Dictionary<String, String>()
+    func submitUserData() {
+        /*var customerInfo = Dictionary<String, String>()
         
         if(dataManager.accountIsCreated() == true) {
             let requestInfo = AppConstants.ControllerActions.CreateDriver
             var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager!.location
+            var location = locationManager.location
             var driverObject = serverManager.buildDriverJSON(location)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
             customerInfo["userID"] = dataManager.userID!
@@ -72,7 +74,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
             serverManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
             let requestInfo = AppConstants.ControllerActions.CreateDriver
             var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager!.location
+            var location = locationManager.location
             var driverObject = serverManager.buildDriverJSON(location)
             var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
             if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
@@ -86,12 +88,12 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
             }
         }
         
-        return customerInfo
+        return customerInfo*/
     }
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier! == "submitDriverInfo") {
+        /*if(segue.identifier! == "submitDriverInfo") {
             var customerInfo : Dictionary<String, String> = submitUserData()
             
             if let destination = segue.destinationViewController as? DriverInfoViewController {
@@ -111,7 +113,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
                     destination.labelData[0] = "No User ID"
                 }
             }
-        }
+        }*/
     }
     
 

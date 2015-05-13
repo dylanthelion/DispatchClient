@@ -101,7 +101,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         var params : Dictionary<String, String> = Dictionary<String, String>()
         
         if(dataManager.currentLocation == nil) {
-            dataManager.setCurrentLocation(locationManager.location)
+            dataManager.currentLocation = locationManager.location
         }
         
         params = dataManager.buildLocationParams()
@@ -119,7 +119,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         locationManager.isLocating = true
         let location = locationManager.location
-        dataManager.setCurrentLocation(location!)
+        dataManager.currentLocation = location
     }
     
     func buildLogoutButton() {
@@ -145,7 +145,11 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
             email = emailTextField.text
         }
         
-        dataManager.submitCustomer(phone, email: email)
+        if(dataManager.accountIsCreated()) {
+            serverManager.updateCustomer(phone, email: email, location: locationManager.location)
+        } else {
+            serverManager.createCustomer(phone, email: email, location: locationManager.location)
+        }
     }
 
 }

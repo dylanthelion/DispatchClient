@@ -120,4 +120,10 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
         textField.resignFirstResponder()
         return true
     }
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        locationManager.isLocating = true
+        let location = locationManager.location
+        dataManager.currentLocation = location
+    }
 }

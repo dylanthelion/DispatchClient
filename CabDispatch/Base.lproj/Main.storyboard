@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -3239,7 +3239,6 @@
                                 </variation>
                                 <connections>
                                     <action selector="createAccount:" destination="YrR-Dk-wYt" eventType="touchUpInside" id="BYe-Cd-7Zz"/>
-                                    <segue destination="oUy-rN-qS0" kind="show" identifier="submitDriverInfo" id="nRl-aW-A12"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNw-Ub-Nwb">
@@ -4606,7 +4605,4 @@
         <image name="Cab" width="360" height="180"/>
         <image name="User" width="199" height="253"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="uej-yJ-UuR"/>
-    </inferredMetricsTieBreakers>
 </document>

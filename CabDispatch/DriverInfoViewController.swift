@@ -15,12 +15,17 @@ class DriverInfoViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     
     var labelData = ["", ""]
+    var dataManager = UserData.getData
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userIDLabel.text = labelData[0]
-        errorLabel.text = labelData[1]
+        if(dataManager.accountIsCreated()) {
+            userIDLabel.text = dataManager.userID!
+        } else {
+            errorLabel.text = "No User Info"
+        }
+        
         
         buildLogoutButton()
 

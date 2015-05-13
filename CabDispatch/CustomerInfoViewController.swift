@@ -24,15 +24,9 @@ class CustomerInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        userIDLabel.text = labelData[0]
-        phoneOrErrorLabel.text = labelData[1]
-        emailLabel.text = labelData[2]
+        populateLabels()
         
         buildLogoutButton()
-        
-        if(validSubmission == false) {
-            phoneOrErrorLabel.textColor = UIColor.redColor()
-        }
         // Do any additional setup after loading the view.
     }
 
@@ -48,6 +42,29 @@ class CustomerInfoViewController: UIViewController {
     
     func logout() {
         self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func populateLabels() {
+        
+        var customerInfo : Dictionary<String, String> = dataManager.buildCustomer()
+        
+        if customerInfo["Error"] != nil {
+            
+            phoneOrErrorLabel.textColor = UIColor.redColor()
+            phoneOrErrorLabel.text = "No user data"
+            userIDLabel.text = ""
+            emailLabel.text = ""
+            
+        } else {
+            
+            var userID = customerInfo["userID"]!
+            var phone = customerInfo["phone"]!
+            var email = customerInfo["email"]!
+            userIDLabel.text = "User ID : \(userID)"
+            phoneOrErrorLabel.text = "Phone: \(phone)"
+            emailLabel.text = "Email: \(email)"
+            
+        }
     }
     
 

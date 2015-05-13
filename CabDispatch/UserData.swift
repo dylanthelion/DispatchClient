@@ -12,7 +12,7 @@ import UIKit
 
 private let globalUserData = UserData()
 
-class UserData {
+class UserData : NSObject {
     
     var userID : String?
     var deviceID : String?
@@ -28,47 +28,42 @@ class UserData {
         return globalUserData
     }
     
-    init() {
+    override init() {
+        super.init()
         println("Init user data")
         loadUserData()
         deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
         serverManager.deviceID = deviceID!
+        setUpNotifications()
     }
     
-    func setCurrentLocation(location: CLLocation) {
-        self.currentLocation = location
+    func setUpNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "deviceIDChanged", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "userIDChanged", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "emailChanged", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleNotification:", name: "phoneNumberChanged", object: nil)
     }
     
-    func setUserID(userID : String) {
-        self.userID = userID
-        if(accountIsCreated() == true) {
-            saveUserData()
+    func handleNotification(notification : NSNotification) {
+        
+        var data = notification.userInfo as! Dictionary<String, String>
+        
+        if(notification.name == "deviceIDChanged") {
+            deviceID = data["id"]!
+        } else if(notification.name == "userIDChanged") {
+            userID = data["id"]!
+        } else if(notification.name == "emailChanged") {
+            email = data["email"]!
+        } else if(notification.name == "phoneNumberChanged") {
+            phone = data["phone"]!
         }
-    }
-    
-    func setDeviceID(deviceID : String) {
-        self.deviceID = deviceID
-        if(accountIsCreated() == true) {
-            saveUserData()
-        }
-    }
-    
-    func setPhone(phone : String) {
-        self.phone = phone
-        if(accountIsCreated() == true) {
-            saveUserData()
-        }
-    }
-    
-    func setEmail(email : String) {
-        self.email = email
-        if(accountIsCreated() == true) {
-            saveUserData()
-        }
+        
+        saveUserData()
     }
     
     func accountIsCreated() -> Bool {
         var isCreated : Bool = false
+        
         
         if let checkUserID = userID {
             if let checkDeviceID = deviceID {
@@ -77,7 +72,7 @@ class UserData {
                 }
             }
         }
-        
+        println("Check is created: \(isCreated)")
         return isCreated
     }
     
@@ -130,47 +125,6 @@ class UserData {
         }
         
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)
-    }
-    
-    func submitCustomer(phone : String?, email : String?) {
-        
-        
-        if(accountIsCreated()) {
-            
-            let requestInfo = AppConstants.ControllerActions.PatchCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            
-            let customerObject = serverManager.buildCustomerJSON(self.currentLocation!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
-            
-            updateCustomerInfo(phone, email: email, userID: nil)
-            
-            // check for 200?
-            
-            
-            
-        } else {
-            
-            let requestInfo = AppConstants.ControllerActions.CreateCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            
-            var customerObject = serverManager.buildCustomerJSON(self.currentLocation!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
-            
-            if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
-                
-                if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
-                    var id = "\(checkForDictionary)"
-                    updateCustomerInfo(phone, email: email, userID: id)
-                } else {
-                    updateCustomerInfo(phone, email: email, userID: nil)
-                }
-            } else {
-                response.setObject("SubmitFailed", forKey: "Error")
-            }
-            
-            println("Response: \(response)")
-        }
     }
     
     func buildCustomer() -> Dictionary<String, String> {

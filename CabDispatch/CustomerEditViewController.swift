@@ -44,7 +44,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         locationManager.isLocating = true
         let location = locationManager.location
-        dataManager.setCurrentLocation(location!)
+        dataManager.currentLocation = location
     }
     
     func buildLogoutButton() {
@@ -70,7 +70,14 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
             email = emailTextField.text
         }
         
-        dataManager.submitCustomer(phone, email: email)
+        if(dataManager.accountIsCreated()) {
+            println("Patch customer")
+            serverManager.updateCustomer(phone, email: email, location: locationManager.location)
+        } else {
+            var response = serverManager.createCustomer(phone, email: email, location: locationManager.location)
+        }
+        
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

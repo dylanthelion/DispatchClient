@@ -113,7 +113,6 @@ class ServerManager {
                     
                     returnObject?.setValue(responseString!, forKey: "Message")
                     println("Message get")
-                    println("Message: \(returnObject!)")
                 }
                 
             }
@@ -134,6 +133,78 @@ class ServerManager {
         }
         
         return returnObject!
+    }
+    
+    func updateCustomer(phone : String?, email : String?, location : CLLocation) {
+        
+            
+            let requestInfo = AppConstants.ControllerActions.PatchCustomer
+            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+            
+            let customerObject = buildCustomerJSON(location, phone: phone, email: email)
+            var response = sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
+        
+        postUpdateNotifications(phone, email: email, userID: nil, deviceID: nil)
+            // check for 200?
+        
+    }
+    
+    func createCustomer(phone : String?, email : String?, location : CLLocation) -> Dictionary<String, AnyObject> {
+        
+        let requestInfo = AppConstants.ControllerActions.CreateCustomer
+        var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+        
+        var customerObject = buildCustomerJSON(location, phone: phone, email: email)
+        var response = sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
+        
+        
+        if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
+            
+            if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
+                var id = "\(checkForDictionary)"
+                postUpdateNotifications(phone, email: email, userID: id, deviceID: nil)
+            }
+        } else {
+            response.setObject("SubmitFailed", forKey: "Error")
+        }
+        
+        var returnObject = convertNSDictionaryToSwiftDictionary(response)
+        if(returnObject["Casting Error"] != nil) {
+            returnObject["Error"] = "SubmitFailed"
+        }
+        
+        return returnObject
+        
+    }
+    
+    func createDriver(location : CLLocation) -> Dictionary<String, AnyObject> {
+        let requestInfo = AppConstants.ControllerActions.CreateDriver
+        var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+        var driverObject = buildDriverJSON(location)
+        var response = sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject) as! NSMutableDictionary
+        if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
+            if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
+                
+                postUpdateNotifications(nil, email: nil, userID: "\(checkForDictionary)", deviceID: nil)
+            }
+        } else {
+            response.setObject("SubmitFailed", forKey: "Error")
+        }
+        
+        var returnObject = convertNSDictionaryToSwiftDictionary(response)
+        
+        if(returnObject["Casting Error"] != nil) {
+            returnObject["Error"] = "SubmitFailed"
+        }
+        
+        return returnObject
+    }
+    
+    func updateDriver(location : CLLocation) {
+        let requestInfo = AppConstants.ControllerActions.PatchDriver
+        var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+        var driverObject = buildDriverJSON(location)
+        var response = sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
     }
     
     func requestFare(location: CLLocation, destination : CLLocation, phone : String?, email : String?, userID : String?) {
@@ -234,5 +305,26 @@ class ServerManager {
         fareDictionary["Destination"] = buildLocationJSON(destination)
         
         return fareDictionary
+    }
+    
+    func postUpdateNotifications(phone : String?, email : String?, userID : String?, deviceID : String?) {
+        println("Updates posted")
+        
+        if let checkPhone = phone {
+            NSNotificationCenter.defaultCenter().postNotificationName("phoneNumberChanged", object: nil, userInfo: ["phone" : phone!])
+        }
+        
+        if let checkEmail = email {
+            NSNotificationCenter.defaultCenter().postNotificationName("emailChanged", object: nil, userInfo: ["email" : email!])
+        }
+        
+        if let checkUserID = userID {
+            println("ID Notification posted")
+            NSNotificationCenter.defaultCenter().postNotificationName("userIDChanged", object: nil, userInfo: ["id" : userID!])
+        }
+        
+        if let checkDeviceID = deviceID {
+            NSNotificationCenter.defaultCenter().postNotificationName("deviceIDChanged", object: nil, userInfo: ["id" : deviceID!])
+        }
     }
 }

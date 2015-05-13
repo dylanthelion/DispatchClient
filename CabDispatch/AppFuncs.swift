@@ -29,3 +29,18 @@ func buildStringFromDictionary(data : Dictionary<String, AnyObject>, root : Stri
         
         return returnString
 }
+
+func convertNSDictionaryToSwiftDictionary(dictionary : NSDictionary) -> Dictionary<String, AnyObject> {
+    
+    var dictionaryToReturn = Dictionary<String, AnyObject>()
+    
+    for key : AnyObject in dictionary.allKeys {
+        if let k = key as? String, v: AnyObject = dictionary.objectForKey(key) {
+            dictionaryToReturn[k] = v
+        } else {
+            dictionaryToReturn["Casting Error"] = "Derp"
+        }
+    }
+    
+    return dictionaryToReturn
+}
