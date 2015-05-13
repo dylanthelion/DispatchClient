@@ -32,6 +32,7 @@ class UserData {
         println("Init user data")
         loadUserData()
         deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
+        serverManager.deviceID = deviceID!
     }
     
     func setCurrentLocation(location: CLLocation) {

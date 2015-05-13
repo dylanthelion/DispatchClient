@@ -12,7 +12,7 @@ import CoreLocation
 
 class CustomerRequestFareViewController: UIViewController, CLLocationManagerDelegate, UITextFieldDelegate {
     
-    var locationManager : CLLocationManager?
+    var locationManager = GlobalLocationManager.appLocationManager
     var geocoder : CLGeocoder?
     var destination : CLLocation?
     
@@ -49,18 +49,12 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
     }
     
     func startLocating() {
-        locationManager = CLLocationManager()
-        
-        locationManager?.delegate = self
-        
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.startMonitoringSignificantLocationChanges()
+        locationManager.startLocating(self)
     }
     
     func buildMap() {
         let span = MKCoordinateSpanMake(0.5, 0.5)
-        let myLocation = locationManager?.location
+        let myLocation = locationManager.location
         var myCoords : CLLocationCoordinate2D
         if let checkLocation = dataManager.currentLocation {
             myCoords = checkLocation.coordinate
@@ -89,9 +83,8 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
             else if let placemark = placemarks?[0] as? CLPlacemark {
                 self.destination = placemark.location
                 
-                if(self.destination?.distanceFromLocation(self.locationManager?.location) < 100000.0) {
-                    var response = self.sendFareRequest()
-                    println("Response: \(response)")
+                if(self.destination?.distanceFromLocation(self.locationManager.location) < 100000.0) {
+                    self.sendFareRequest()
                 } else {
                     self.errorLabel.text = "Invalid location"
                 }
@@ -109,48 +102,22 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
         self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func sendFareRequest() -> Dictionary<String, AnyObject> {
-        let controller = AppConstants.ServerControllers.FareRequest
-        let action = AppConstants.ControllerActions.RequestFare
-        let actions = [action.0, action.1, action.2]
+    func sendFareRequest() {
         
         var location : CLLocation
         
         if let checkLocation = dataManager.currentLocation {
             location = checkLocation
         } else {
-            location = locationManager!.location
+            location = locationManager.location
         }
         
-        var phone : String? = nil
-        var email : String? = nil
+        serverManager.requestFare(location, destination: destination!, phone: dataManager.phone, email: dataManager.email, userID: dataManager.userID)
         
-        if let checkPhone = dataManager.phone {
-            phone = dataManager.phone!
-        }
-        
-        if let checkEmail = dataManager.email {
-            email = dataManager.email!
-        }
-        
-        var dictionaryToReturn : Dictionary<String, AnyObject> = serverManager.sendRequest(controller, action: actions as [AnyObject], params: nil, requestBody: serverManager.buildFareRequestJSON(location, destination: destination!, customerID: dataManager.userID!, phone: phone, email: email)) as! Dictionary<String, AnyObject>
-        
-        return dictionaryToReturn
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

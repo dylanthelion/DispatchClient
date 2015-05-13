@@ -28,7 +28,6 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         emailTextField.delegate = self
         
         buildLogoutButton()
-
         // Do any additional setup after loading the view.
     }
 

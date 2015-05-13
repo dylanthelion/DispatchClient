@@ -136,6 +136,15 @@ class ServerManager {
         return returnObject!
     }
     
+    func requestFare(location: CLLocation, destination : CLLocation, phone : String?, email : String?, userID : String?) {
+        let controller = AppConstants.ServerControllers.FareRequest
+        let action = AppConstants.ControllerActions.RequestFare
+        let actions = [action.0, action.1, action.2]
+        
+        
+        var dictionaryToReturn : Dictionary<String, AnyObject> = sendRequest(controller, action: actions as [AnyObject], params: nil, requestBody: buildFareRequestJSON(location, destination: destination, customerID: userID, phone: phone, email: email)) as! Dictionary<String, AnyObject>
+    }
+    
     func buildURL(controller : String, action : String, params : Dictionary<String, String>?) -> NSURL {
         
         var baseURL : String = AppConstants.ServerDomains.DispatchAPI
