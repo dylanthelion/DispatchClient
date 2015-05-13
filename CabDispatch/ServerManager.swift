@@ -113,6 +113,7 @@ class ServerManager {
                     
                     returnObject?.setValue(responseString!, forKey: "Message")
                     println("Message get")
+                    println("Message: \(returnObject!)")
                 }
                 
             }
@@ -121,7 +122,8 @@ class ServerManager {
             if(err != nil) {
                 returnObject = NSMutableDictionary()
                 returnObject!.setValue("You done messed up", forKey: "Error")
-                println("Error get")
+                println("Error get: \(err?.localizedDescription)")
+                //println("Response: \(response)")
             }
         })
         
@@ -131,7 +133,6 @@ class ServerManager {
             
         }
         
-        //println("Return: \(returnObject!)")
         return returnObject!
     }
     

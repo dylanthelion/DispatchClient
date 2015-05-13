@@ -19,6 +19,7 @@ class UserData {
     var phone : String?
     var email : String?
     let fileManager = NSFileManager.defaultManager()
+    let serverManager = ServerManager.defaultManager
     
     // used to preload maps
     var currentLocation : CLLocation?
@@ -128,5 +129,85 @@ class UserData {
         }
         
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)
+    }
+    
+    func submitCustomer(location: CLLocation, phone : String?, email : String?) {
+        
+        
+        if(accountIsCreated()) {
+            
+            let requestInfo = AppConstants.ControllerActions.PatchCustomer
+            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+            
+            let customerObject = serverManager.buildCustomerJSON(location, phone: phone, email: email)
+            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
+            
+            updateCustomerInfo(phone, email: email, userID: nil)
+            
+            // check for 200?
+            
+            
+            
+        } else {
+            
+            let requestInfo = AppConstants.ControllerActions.CreateCustomer
+            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+            
+            var customerObject = serverManager.buildCustomerJSON(location, phone: phone, email: email)
+            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject) as! NSMutableDictionary
+            
+            if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
+                
+                if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
+                    var id = "\(checkForDictionary)"
+                    updateCustomerInfo(phone, email: email, userID: id)
+                } else {
+                    updateCustomerInfo(phone, email: email, userID: nil)
+                }
+            } else {
+                response.setObject("SubmitFailed", forKey: "Error")
+            }
+            
+            println("Response: \(response)")
+        }
+    }
+    
+    func buildCustomer() -> Dictionary<String, String> {
+        var returnDictionary = Dictionary<String, String>()
+        
+        if let checkID = userID {
+            returnDictionary["userID"] = userID!
+        } else {
+            returnDictionary["Error"] = "No user data"
+        }
+        
+        if let checkPhone = phone {
+            returnDictionary["phone"] = phone!
+        } else {
+            returnDictionary["phone"] = "No phone data"
+        }
+        
+        if let checkEmail = email {
+            returnDictionary["email"] = email!
+        } else {
+            returnDictionary["email"] = "No email data"
+        }
+        
+        return returnDictionary
+    }
+    
+    func updateCustomerInfo(phone: String?, email: String?, userID : String?) {
+        
+        if let checkID = userID {
+            self.userID = userID!
+        }
+        
+        if let checkPhone = phone {
+            self.phone = phone!
+        }
+        
+        if let checkEmail = email {
+            self.email = email!
+        }
     }
 }

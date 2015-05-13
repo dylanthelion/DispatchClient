@@ -15,14 +15,14 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     @IBOutlet weak var emailTextField: UITextField!
     
-    var locationManager : CLLocationManager?
+    var locationManager = GlobalLocationManager.appLocationManager
     var dataManager = UserData.getData
     var serverManager = ServerManager.defaultManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startLocating()
+        locationManager.startLocating(self)
         
         phoneTextField.delegate = self
         emailTextField.delegate = self
@@ -42,18 +42,9 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         return true
     }
     
-    func startLocating() {
-        locationManager = CLLocationManager()
-        
-        locationManager?.delegate = self
-        
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestAlwaysAuthorization()
-        locationManager?.startMonitoringSignificantLocationChanges()
-    }
-    
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let location = locationManager?.location
+        locationManager.isLocating = true
+        let location = locationManager.location
         dataManager.setCurrentLocation(location!)
     }
     
@@ -66,32 +57,30 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-
     @IBAction func submit(sender: AnyObject) {
+        var email : String? = nil
+        var phone : String? = nil
+        
+        var customerInfo = Dictionary<String, String>()
+        
+        if(phoneTextField.text != "") {
+            phone = phoneTextField.text
+        }
+        
+        if(emailTextField.text != "") {
+            email = emailTextField.text
+        }
+        
+        dataManager.submitCustomer(locationManager.location, phone: phone, email: email)
     }
     
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier! == "submitCustomerInfo") {
-            var customerInfo : Dictionary<String, String> = submitUserData()
+        if(segue.identifier! == "showCustomerInfo") {
             
-            if(customerInfo["phone"] == nil) {
-                if let checkPhone = dataManager.phone {
-                    customerInfo["phone"] = dataManager.phone!
-                } else {
-                    customerInfo["phone"] = "No user data"
-                }
-            }
-            
-            if(customerInfo["email"] == nil) {
-                if let checkEmail = dataManager.email {
-                    customerInfo["email"] = dataManager.email!
-                } else {
-                    customerInfo["email"] = "No user data"
-                }
-            }
+            var customerInfo : Dictionary<String, String> = dataManager.buildCustomer()
             
             if let destination = segue.destinationViewController as? CustomerInfoViewController {
+                
                 if customerInfo["Error"] != nil {
                     destination.labelData[1] = customerInfo["Error"]!
                     destination.validSubmission = false
@@ -106,77 +95,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
                     destination.labelData[2] = "Email: \(email)"
                 }
             }
-        } else {
-            if let destination = segue.destinationViewController as? CustomerInfoViewController {
-                if let checkUserID = dataManager.userID {
-                    destination.labelData[0] = "User ID: \(dataManager.userID!)"
-                } else {
-                    destination.labelData[0] = "No User ID"
-                }
-                
-                if let checkPhone = dataManager.phone {
-                    destination.labelData[1] = "Phone: \(dataManager.phone!)"
-                } else {
-                    destination.labelData[1] = "No phone sent"
-                }
-                
-                if let checkEmail = dataManager.email {
-                    destination.labelData[2] = "Email: \(dataManager.email!)"
-                } else {
-                    destination.labelData[2] = "No email sent"
-                }
-            }
         }
-    }
-    
-    func submitUserData() -> Dictionary<String, String> {
-        var email : String? = nil
-        var phone : String? = nil
-        
-        var customerInfo = Dictionary<String, String>()
-        
-        if(phoneTextField.text != "") {
-            phone = phoneTextField.text
-            dataManager.phone = phoneTextField.text
-            customerInfo["phone"] = phoneTextField.text
-        }
-        
-        if(emailTextField.text != "") {
-            email = emailTextField.text
-            dataManager.email = emailTextField.text
-            customerInfo["email"] = emailTextField.text
-        }
-        
-        if(dataManager.accountIsCreated() == true) {
-            let requestInfo = AppConstants.ControllerActions.PatchCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager?.location
-            var customerObject = serverManager.buildCustomerJSON(location!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject)
-            customerInfo["userID"] = dataManager.userID!
-        } else {
-            serverManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
-            let requestInfo = AppConstants.ControllerActions.CreateCustomer
-            var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-            var location = locationManager?.location
-            var customerObject = serverManager.buildCustomerJSON(location!, phone: phone, email: email)
-            var response = serverManager.sendRequest(AppConstants.ServerControllers.Customer, action: actionArray, params: nil, requestBody: customerObject)
-            println("Response: \(response)")
-            if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
-                
-            
-            if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
-                println("\(checkForDictionary)")
-                dataManager.setDeviceID(UIDevice.currentDevice().identifierForVendor.UUIDString)
-                dataManager.setUserID("\(checkForDictionary)")
-                customerInfo["userID"] = "\(checkForDictionary)"
-            } else {
-                customerInfo["Error"] = "Submit failed"
-            }
-            }
-        }
-        
-        return customerInfo
     }
 
 }
