@@ -12,6 +12,7 @@
 		742B7FA31AF442CC000ADB38 /* CustomerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742B7FA21AF442CC000ADB38 /* CustomerInfoViewController.swift */; };
 		742B7FA51AF444C9000ADB38 /* CustomerFareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742B7FA41AF444C9000ADB38 /* CustomerFareViewController.swift */; };
 		742B7FA71AF44638000ADB38 /* CustomerRequestFareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742B7FA61AF44638000ADB38 /* CustomerRequestFareViewController.swift */; };
+		7442A58E1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442A58D1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift */; };
 		744608291AF548200099F0A2 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744608281AF548200099F0A2 /* UserData.swift */; };
 		7446082B1AF54A6B0099F0A2 /* UserData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7446082A1AF54A6B0099F0A2 /* UserData.plist */; };
 		745159BB1AF5524B00DA5741 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745159BA1AF5524B00DA5741 /* ServerManager.swift */; };
@@ -48,6 +49,7 @@
 		742B7FA21AF442CC000ADB38 /* CustomerInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerInfoViewController.swift; sourceTree = "<group>"; };
 		742B7FA41AF444C9000ADB38 /* CustomerFareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerFareViewController.swift; sourceTree = "<group>"; };
 		742B7FA61AF44638000ADB38 /* CustomerRequestFareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerRequestFareViewController.swift; sourceTree = "<group>"; };
+		7442A58D1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailableFaresMapDelegate.swift; sourceTree = "<group>"; };
 		744608281AF548200099F0A2 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		7446082A1AF54A6B0099F0A2 /* UserData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = UserData.plist; sourceTree = "<group>"; };
 		745159BA1AF5524B00DA5741 /* ServerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				74E51D3D1AF44FF80085B343 /* DriverAvailableFaresViewController.swift */,
 				74E51D3F1AF4516C0085B343 /* DriverAssignedFaresViewController.swift */,
 				745FEF4B1AF43F2A003C397A /* Main.storyboard */,
+				7442A58D1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift */,
 				744608281AF548200099F0A2 /* UserData.swift */,
 				7493966D1B02B8A9000EEE2D /* GlobalLocationManager.swift */,
 				745159BA1AF5524B00DA5741 /* ServerManager.swift */,
@@ -275,6 +278,7 @@
 				74E51D3A1AF44E1B0085B343 /* DriverEditViewController.swift in Sources */,
 				742B7FA31AF442CC000ADB38 /* CustomerInfoViewController.swift in Sources */,
 				745159BB1AF5524B00DA5741 /* ServerManager.swift in Sources */,
+				7442A58E1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift in Sources */,
 				742B7F9F1AF4407F000ADB38 /* SigninViewController.swift in Sources */,
 				744608291AF548200099F0A2 /* UserData.swift in Sources */,
 				742B7FA51AF444C9000ADB38 /* CustomerFareViewController.swift in Sources */,

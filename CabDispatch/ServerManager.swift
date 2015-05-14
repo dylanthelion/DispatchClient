@@ -207,6 +207,17 @@ class ServerManager {
         var response = sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
     }
     
+    func allFares() -> Dictionary<String, AnyObject> {
+        
+        let controller = AppConstants.ServerControllers.FareRequest
+        let action = AppConstants.ControllerActions.AllFares
+        let actions = [action.0, action.1]
+        
+        var dictionaryToReturn = sendRequest(controller, action: actions, params: nil, requestBody: nil)
+        
+        return dictionaryToReturn as! Dictionary<String, AnyObject>
+    }
+    
     func requestFare(location: CLLocation, destination : CLLocation, phone : String?, email : String?, userID : String?) {
         let controller = AppConstants.ServerControllers.FareRequest
         let action = AppConstants.ControllerActions.RequestFare
@@ -214,6 +225,18 @@ class ServerManager {
         
         
         var dictionaryToReturn : Dictionary<String, AnyObject> = sendRequest(controller, action: actions as [AnyObject], params: nil, requestBody: buildFareRequestJSON(location, destination: destination, customerID: userID, phone: phone, email: email)) as! Dictionary<String, AnyObject>
+    }
+    
+    func acceptFare(fareID : String, driverID : String) {
+        
+        let controller = AppConstants.ServerControllers.Driver
+        let action = AppConstants.ControllerActions.AcceptFare
+        let actions = [action.0, action.1]
+        var params = Dictionary<String, String>()
+        params["driverID"] = driverID
+        params["customerID"] = fareID
+        var response = sendRequest(controller, action: actions, params: params, requestBody: nil)
+        //println("Response: \(response)")
     }
     
     func buildURL(controller : String, action : String, params : Dictionary<String, String>?) -> NSURL {

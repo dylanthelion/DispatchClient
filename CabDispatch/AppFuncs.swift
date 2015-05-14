@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CoreLocation
     
 func buildStringFromDictionary(data : Dictionary<String, AnyObject>, root : String?) -> String {
         var returnString : String
@@ -43,4 +43,22 @@ func convertNSDictionaryToSwiftDictionary(dictionary : NSDictionary) -> Dictiona
     }
     
     return dictionaryToReturn
+}
+
+func buildCoordsFromLocationDictionary(location : Dictionary<String, AnyObject>) -> CLLocationCoordinate2D {
+    
+    let latSign = location["Latitude_sign"] as! String
+    let longSign = location["Longitude_sign"] as! String
+    var lat = location["Latitude"] as! Double
+    var long = location["Longitude"] as! Double
+    
+    if(latSign == "-") {
+        lat *= -1
+    }
+    
+    if(longSign == "-") {
+        long *= -1
+    }
+    
+    return CLLocationCoordinate2DMake(lat, long)
 }
