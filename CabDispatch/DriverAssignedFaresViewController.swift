@@ -43,47 +43,17 @@ class DriverAssignedFaresViewController: UIViewController {
     func buildFareList() {
         if dataManager.accountIsCreated() {
             let fares = getFares()
+            
             if(fares.isEmpty == true) {
-                println("No fares")
-                let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
-                label.text = "No fares currently"
-                view.addSubview(label)
+                buildNoFaresLabel()
             } else if let message = fares["Message"] as? String {
-                println("Message: \(message)")
-                let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
-                label.text = message
-                label.backgroundColor = UIColor.yellowColor()
-                view.addSubview(label)
+                buildErrorLabel(message)
             } else {
-                println("Haz fares")
                 fareLabels = [UILabel]()
-                //println("Fares: \(fares)")
-                var labelCount : CGFloat = 0
-                for(key, value) in fares {
-                    var yCoord : CGFloat = labelHeight * labelCount
-                    yCoord = yCoord + 75
-                    
-                    let label = UILabel(frame: CGRectMake(0, yCoord, width, labelHeight))
-                    var labelText : String = "\(key)"
-                    if let checkValue = value as? Dictionary<String, AnyObject> {
-                        labelText = buildStringFromDictionary(checkValue, labelText)
-                    } else {
-                        labelText += "Error"
-                    }
-                    
-                    
-                    label.text = labelText
-                    
-                    view.addSubview(label)
-                    fareLabels?.append(label)
-                    labelCount = labelCount + 1
-                }
+                buildFareLabels(fares)
             }
         } else {
-            println("No user account")
-            let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
-            label.text = "No user account created"
-            view.addSubview(label)
+            buildNoAccountLabel()
         }
     }
     
@@ -101,30 +71,53 @@ class DriverAssignedFaresViewController: UIViewController {
     }
     
     func getFares() -> Dictionary<String, AnyObject> {
-        let controller = AppConstants.ServerControllers.Driver
-        let action = AppConstants.ControllerActions.GetCustomerLocations
-        let actions = [action.0, action.1]
         
-        var params = Dictionary<String, String>()
+        var dictionaryToReturn = serverManager.getAssignedFares(dataManager.userID!, orderedBy: "location")
         
-        params["driverID"] = dataManager.userID!
-        
-        params["orderedBy"] = "location"
-        
-        var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
-        
-        return dictionaryToReturn as! Dictionary<String, AnyObject>
+        return dictionaryToReturn as Dictionary<String, AnyObject>
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func buildNoFaresLabel() {
+        
+        let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
+        label.text = "No fares currently"
+        view.addSubview(label)
     }
-    */
+    
+    func buildErrorLabel(message : String) {
+        let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
+        label.text = message
+        label.backgroundColor = UIColor.yellowColor()
+        view.addSubview(label)
+    }
+    
+    func buildNoAccountLabel() {
+        let label = UILabel(frame: CGRectMake(0, 75, width, labelHeight))
+        label.text = "No user account created"
+        view.addSubview(label)
+    }
+    
+    func buildFareLabels(fares : Dictionary<String, AnyObject>) {
+        var labelCount : CGFloat = 0
+        for(key, value) in fares {
+            var yCoord : CGFloat = labelHeight * labelCount
+            yCoord = yCoord + 75
+            
+            let label = UILabel(frame: CGRectMake(0, yCoord, width, labelHeight))
+            var labelText : String = "\(key)"
+            if let checkValue = value as? Dictionary<String, AnyObject> {
+                labelText = buildStringFromDictionary(checkValue, labelText)
+            } else {
+                labelText += "Error"
+            }
+            
+            
+            label.text = labelText
+            
+            view.addSubview(label)
+            fareLabels?.append(label)
+            labelCount = labelCount + 1
+        }
+    }
 
 }

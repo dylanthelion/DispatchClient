@@ -239,6 +239,23 @@ class ServerManager {
         //println("Response: \(response)")
     }
     
+    func getAssignedFares(driverID : String, orderedBy : String) -> Dictionary<String, AnyObject> {
+        
+        let controller = AppConstants.ServerControllers.Driver
+        let action = AppConstants.ControllerActions.GetCustomerLocations
+        let actions = [action.0, action.1]
+        
+        var params = Dictionary<String, String>()
+        
+        params["driverID"] = driverID
+        
+        params["orderedBy"] = orderedBy
+        
+        var dictionaryToReturn = sendRequest(controller, action: actions, params: params, requestBody: nil)
+        
+        return dictionaryToReturn as! Dictionary<String, AnyObject>
+    }
+    
     func buildURL(controller : String, action : String, params : Dictionary<String, String>?) -> NSURL {
         
         var baseURL : String = AppConstants.ServerDomains.DispatchAPI
