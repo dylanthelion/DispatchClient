@@ -189,4 +189,12 @@ class UserData : NSObject {
         
         return paramsToReturn
     }
+    
+    func saveImageToFile(image : UIImage, name : String) {
+        let fileExtension = "/\(name)"
+        let path = documentDirectoryPath().URLByAppendingPathComponent(fileExtension)
+        
+        let imageData = UIImagePNGRepresentation(image)
+        fileManager.createFileAtPath(path.path!, contents: imageData, attributes: nil)
+    }
 }

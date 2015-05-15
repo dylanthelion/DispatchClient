@@ -24,23 +24,26 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
         startingAnnotations = [MKAnnotationView]()
         destinationAnnotations = [MKAnnotationView]()
         super.init()
+        
+        loadPinImages()
+    }
+    
+    func loadPinImages() {
+        pinImage = UIImage(named: "RedMapPin")
+        originPinImage = UIImage(named: "GreenMapPin")
+        destinationPinImage = UIImage(named: "PurpleMapPin")
     }
     
     func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        println("Did select")
         
         let startIndex = view.reuseIdentifier.startIndex
+        
         if(view.reuseIdentifier[startIndex] == "O") {
-            //println("Origin: \(view.reuseIdentifier)")
-            view.image = originPinImage!
-            let index = advance(startIndex, 6)
-            let range = index..<view.reuseIdentifier.endIndex
-            let id = view.reuseIdentifier.substringWithRange(range)
-            selectedFareID = id
+            let id = view.reuseIdentifier.getNumericPostscript()!
+            selectedFareID = "\(id)"
             let destinationReuseID = "Destination\(id)"
             for ann in destinationAnnotations! {
                 if(ann.reuseIdentifier == destinationReuseID) {
-                    println("Destination: \(ann.reuseIdentifier)")
                     ann.image = pinImage!
                 } else {
                     ann.image = destinationPinImage!
@@ -48,15 +51,11 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
             }
         } else {
             view.image = destinationPinImage!
-            //println("Destination: \(view.reuseIdentifier)")
-            let index = advance(startIndex, 11)
-            let range = index..<view.reuseIdentifier.endIndex
-            let id = view.reuseIdentifier.substringWithRange(range)
-            selectedFareID = id
+            let id = view.reuseIdentifier.getNumericPostscript()
+            selectedFareID = "\(id!)"
             let originReuseID = "Origin\(id)"
             for ann in startingAnnotations! {
                 if(ann.reuseIdentifier == originReuseID) {
-                    println("Origin: \(ann.reuseIdentifier)")
                     ann.image = pinImage!
                 } else {
                     ann.image = originPinImage!
@@ -78,17 +77,12 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
         var ann = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
         
         if(ann == nil && reuseID[reuseID.startIndex] == "O") {
-            var pinAnn = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            pinImage = pinAnn.image
-            pinAnn.pinColor = MKPinAnnotationColor.Green
-            originPinImage = pinAnn.image
-            ann = pinAnn
+            ann = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            ann.image = originPinImage!
             startingAnnotations?.append(ann)
         } else {
-            var pinAnn = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
-            pinAnn.pinColor = MKPinAnnotationColor.Purple
-            destinationPinImage = pinAnn.image
-            ann = pinAnn
+            ann = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            ann.image = destinationPinImage!
             destinationAnnotations?.append(ann)
         }
         

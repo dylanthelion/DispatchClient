@@ -26,6 +26,7 @@
 		745FEF6A1AF43F4C003C397A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745FEF691AF43F4C003C397A /* CoreLocation.framework */; };
 		745FEF6B1AF43F6B003C397A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745FEF671AF43F38003C397A /* MapKit.framework */; };
 		7493966E1B02B8A9000EEE2D /* GlobalLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7493966D1B02B8A9000EEE2D /* GlobalLocationManager.swift */; };
+		749F64F61B0569EF00CD7CCA /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749F64F51B0569EF00CD7CCA /* StringExtension.swift */; };
 		74A6E7441B017B6E00D83D35 /* AppFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A6E7431B017B6E00D83D35 /* AppFuncs.swift */; };
 		74E51D3A1AF44E1B0085B343 /* DriverEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E51D391AF44E1B0085B343 /* DriverEditViewController.swift */; };
 		74E51D3C1AF44F730085B343 /* DriverInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E51D3B1AF44F730085B343 /* DriverInfoViewController.swift */; };
@@ -66,6 +67,7 @@
 		745FEF671AF43F38003C397A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		745FEF691AF43F4C003C397A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7493966D1B02B8A9000EEE2D /* GlobalLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalLocationManager.swift; sourceTree = "<group>"; };
+		749F64F51B0569EF00CD7CCA /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		74A6E7431B017B6E00D83D35 /* AppFuncs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFuncs.swift; sourceTree = "<group>"; };
 		74E51D391AF44E1B0085B343 /* DriverEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverEditViewController.swift; sourceTree = "<group>"; };
 		74E51D3B1AF44F730085B343 /* DriverInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverInfoViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				745FEF501AF43F2A003C397A /* LaunchScreen.xib */,
 				745159BC1AF5526300DA5741 /* AppConstants.swift */,
 				74A6E7431B017B6E00D83D35 /* AppFuncs.swift */,
+				749F64F51B0569EF00CD7CCA /* StringExtension.swift */,
 				745FEF451AF43F2A003C397A /* Supporting Files */,
 			);
 			path = CabDispatch;
@@ -281,6 +284,7 @@
 				7442A58E1B0481F6000DCC2A /* AvailableFaresMapDelegate.swift in Sources */,
 				742B7F9F1AF4407F000ADB38 /* SigninViewController.swift in Sources */,
 				744608291AF548200099F0A2 /* UserData.swift in Sources */,
+				749F64F61B0569EF00CD7CCA /* StringExtension.swift in Sources */,
 				742B7FA51AF444C9000ADB38 /* CustomerFareViewController.swift in Sources */,
 				7493966E1B02B8A9000EEE2D /* GlobalLocationManager.swift in Sources */,
 				745FEF481AF43F2A003C397A /* AppDelegate.swift in Sources */,
