@@ -367,4 +367,27 @@ class ServerManager {
             NSNotificationCenter.defaultCenter().postNotificationName("deviceIDChanged", object: nil, userInfo: ["id" : deviceID!])
         }
     }
+    
+    func buildLocationParams(location : CLLocation) -> Dictionary<String, String> {
+        
+        var paramsToReturn = Dictionary<String, String>()
+        
+        
+        paramsToReturn["Latitude"] = "\(abs(location.coordinate.latitude))"
+        paramsToReturn["Longitude"] = "\(abs(location.coordinate.longitude))"
+            
+        if(location.coordinate.latitude >= 0) {
+            paramsToReturn["Latitude_sign"] = "%2B"
+        } else {
+            paramsToReturn["Latitude_sign"] = "%2D"
+        }
+            
+        if(location.coordinate.longitude >= 0) {
+            paramsToReturn["Longitude_sign"] = "%2D"
+        } else {
+            paramsToReturn["Longitude_sign"] = "%2B"
+        }
+        
+        return paramsToReturn
+    }
 }

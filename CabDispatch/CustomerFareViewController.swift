@@ -104,7 +104,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
             dataManager.currentLocation = locationManager.location
         }
         
-        params = dataManager.buildLocationParams()
+        params = serverManager.buildLocationParams(dataManager.currentLocation!)
         
         var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
         

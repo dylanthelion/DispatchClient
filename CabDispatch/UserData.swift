@@ -30,10 +30,11 @@ class UserData : NSObject {
     
     override init() {
         super.init()
-        println("Init user data")
-        loadUserData()
+        
         deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
         serverManager.deviceID = deviceID!
+        
+        loadUserData()
         setUpNotifications()
     }
     
@@ -62,8 +63,8 @@ class UserData : NSObject {
     }
     
     func accountIsCreated() -> Bool {
-        var isCreated : Bool = false
         
+        var isCreated : Bool = false
         
         if let checkUserID = userID {
             if let checkDeviceID = deviceID {
@@ -72,7 +73,7 @@ class UserData : NSObject {
                 }
             }
         }
-        println("Check is created: \(isCreated)")
+        
         return isCreated
     }
     
@@ -82,14 +83,14 @@ class UserData : NSObject {
     }
     
     func loadUserData() {
-        let path = documentDirectoryPath().URLByAppendingPathComponent("UserData.plist")
+        let path = documentDirectoryPath().URLByAppendingPathComponent("/UserData.plist")
         if(fileManager.fileExistsAtPath(path.path!)) {
             loadFromAppDirectory()
-            println("Loaded user data")
         }
     }
     
     func loadFromAppDirectory() {
+        
         let path = documentDirectoryPath().URLByAppendingPathComponent("/UserData.plist")
         let dataEntry = NSDictionary(contentsOfFile: path.path!) as! Dictionary<String, String>
         
@@ -100,29 +101,14 @@ class UserData : NSObject {
         if let checkDeviceIDEntry = dataEntry["deviceID"] {
             deviceID = dataEntry["deviceID"]
         }
+        
     }
     
     func saveUserData() {
-        println("Save data")
+        
         let path = documentDirectoryPath().URLByAppendingPathComponent("/UserData.plist")
         
-        var dictionaryToWrite = [String:String]()
-        
-        if let checkUserID = userID {
-            dictionaryToWrite["userID"] = userID!
-        }
-        
-        if let checkDeviceID = deviceID {
-            dictionaryToWrite["deviceID"] = deviceID!
-        }
-        
-        if let checkPhone = phone {
-            dictionaryToWrite["phone"] = phone!
-        }
-        
-        if let checkEmail = email {
-            dictionaryToWrite["email"] = email!
-        }
+        var dictionaryToWrite = buildDataToWrite()
         
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)
     }
@@ -166,35 +152,36 @@ class UserData : NSObject {
         }
     }
     
-    func buildLocationParams() -> Dictionary<String, String> {
-        
-        var paramsToReturn = Dictionary<String, String>()
-        
-        if let location = currentLocation {
-            paramsToReturn["Latitude"] = "\(currentLocation?.coordinate.latitude)"
-            paramsToReturn["Longitude"] = "\(currentLocation?.coordinate.longitude)"
-            
-            if(currentLocation?.coordinate.latitude >= 0) {
-                paramsToReturn["Latitude_sign"] = "%2B"
-            } else {
-                paramsToReturn["Latitude_sign"] = "%2D"
-            }
-            
-            if(currentLocation?.coordinate.longitude >= 0) {
-                paramsToReturn["Longitude_sign"] = "%2D"
-            } else {
-                paramsToReturn["Longitude_sign"] = "%2B"
-            }
-        }
-        
-        return paramsToReturn
-    }
-    
     func saveImageToFile(image : UIImage, name : String) {
+        
         let fileExtension = "/\(name)"
         let path = documentDirectoryPath().URLByAppendingPathComponent(fileExtension)
         
         let imageData = UIImagePNGRepresentation(image)
         fileManager.createFileAtPath(path.path!, contents: imageData, attributes: nil)
+        
+    }
+    
+    func buildDataToWrite() -> Dictionary<String, String> {
+        
+        var dictionaryToWrite = [String:String]()
+        
+        if let checkUserID = userID {
+            dictionaryToWrite["userID"] = userID!
+        }
+        
+        if let checkDeviceID = deviceID {
+            dictionaryToWrite["deviceID"] = deviceID!
+        }
+        
+        if let checkPhone = phone {
+            dictionaryToWrite["phone"] = phone!
+        }
+        
+        if let checkEmail = email {
+            dictionaryToWrite["email"] = email!
+        }
+        
+        return dictionaryToWrite
     }
 }
