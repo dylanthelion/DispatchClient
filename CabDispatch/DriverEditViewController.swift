@@ -12,9 +12,8 @@ import CoreLocation
 class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
     
     var locationManager = GlobalLocationManager.appLocationManager
-    
     let dataManager = UserData.getData
-    let serverManager = ServerManager.defaultManager
+    let serverManager = DriverRequests()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +53,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
     @IBAction func createAccount(sender: AnyObject) {
         if(dataManager.accountIsCreated() == true) {
             println("Patch driver")
-            serverManager.updateDriver(locationManager.location)
+            serverManager.patchDriver(locationManager.location)
         } else {
             serverManager.createDriver(locationManager.location)
         }

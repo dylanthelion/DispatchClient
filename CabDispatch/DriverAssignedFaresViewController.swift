@@ -11,7 +11,7 @@ import UIKit
 class DriverAssignedFaresViewController: UIViewController {
     
     let dataManager = UserData.getData
-    let serverManager = ServerManager.defaultManager
+    let serverManager = DriverRequests()
     let width = UIScreen.mainScreen().bounds.width
     let height = UIScreen.mainScreen().bounds.height
     var labelHeight : CGFloat = 0.0

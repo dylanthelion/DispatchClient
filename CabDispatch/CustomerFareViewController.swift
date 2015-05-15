@@ -20,7 +20,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     let locationManager = GlobalLocationManager.appLocationManager
     let dataManager = UserData.getData
-    let serverManager = ServerManager.defaultManager
+    let serverManager = CustomerRequests()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,20 +95,12 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     func getDrivers() -> Dictionary<String, AnyObject> {
         
-        let controller = AppConstants.ServerControllers.FareRequest
-        let action = AppConstants.ControllerActions.AllEmptyDrivers
-        let actions = [action.0, action.1]
-        var params : Dictionary<String, String> = Dictionary<String, String>()
         
         if(dataManager.currentLocation == nil) {
             dataManager.currentLocation = locationManager.location
         }
         
-        params = serverManager.buildLocationParams(dataManager.currentLocation!)
-        
-        var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
-        
-        return dictionaryToReturn as! Dictionary<String, AnyObject>
+        return serverManager.getNearbyDrivers(dataManager.currentLocation!)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -146,7 +138,7 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         }
         
         if(dataManager.accountIsCreated()) {
-            serverManager.updateCustomer(phone, email: email, location: locationManager.location)
+            serverManager.patchCustomer(phone, email: email, location: locationManager.location)
         } else {
             serverManager.createCustomer(phone, email: email, location: locationManager.location)
         }

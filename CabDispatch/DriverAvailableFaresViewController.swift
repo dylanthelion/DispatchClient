@@ -14,7 +14,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     
     var locationManager = GlobalLocationManager.appLocationManager
     let dataManager = UserData.getData
-    let serverManager = ServerManager.defaultManager
+    let serverManager = DriverRequests()
     let mapDelegate = AvailableFaresMapDelegate()
     var fareCustomerIDs : Dictionary<String, String>?
 

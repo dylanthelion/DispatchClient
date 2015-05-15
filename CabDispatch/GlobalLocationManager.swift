@@ -30,6 +30,7 @@ class GlobalLocationManager: CLLocationManager {
             self.requestAlwaysAuthorization()
             self.desiredAccuracy = kCLLocationAccuracyBest
             self.startMonitoringSignificantLocationChanges()
+            isLocating = true
         }
     }
 }

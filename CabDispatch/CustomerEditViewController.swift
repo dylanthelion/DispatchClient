@@ -17,7 +17,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
     
     var locationManager = GlobalLocationManager.appLocationManager
     var dataManager = UserData.getData
-    var serverManager = ServerManager.defaultManager
+    var serverManager = CustomerRequests()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +72,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         
         if(dataManager.accountIsCreated()) {
             println("Patch customer")
-            serverManager.updateCustomer(phone, email: email, location: locationManager.location)
+            serverManager.patchCustomer(phone, email: email, location: locationManager.location)
         } else {
             var response = serverManager.createCustomer(phone, email: email, location: locationManager.location)
         }

@@ -17,7 +17,7 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
     var destination : CLLocation?
     
     let dataManager = UserData.getData
-    let serverManager = ServerManager.defaultManager
+    let serverManager = CustomerRequests()
     
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var currentAddressTextField: UITextField!

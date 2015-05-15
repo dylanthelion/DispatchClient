@@ -19,7 +19,7 @@ class UserData : NSObject {
     var phone : String?
     var email : String?
     let fileManager = NSFileManager.defaultManager()
-    let serverManager = ServerManager.defaultManager
+    let notificationManager = NotificationManager.defaultManager
     
     // used to preload maps
     var currentLocation : CLLocation?
@@ -31,11 +31,13 @@ class UserData : NSObject {
     override init() {
         super.init()
         
-        deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
-        serverManager.deviceID = deviceID!
-        
         loadUserData()
         setUpNotifications()
+        deviceID = UIDevice.currentDevice().identifierForVendor.UUIDString
+        
+    notificationManager.postAccountUpdateNotifications(nil, email: nil, userID: nil, deviceID: deviceID)
+        
+        
     }
     
     func setUpNotifications() {
