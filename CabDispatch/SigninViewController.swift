@@ -33,9 +33,9 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         
-        if(identifier! == "driverSignin") {
+        if(identifier == "driverSignin") {
             
             if(checkPassword()) {
                 return true
@@ -49,7 +49,7 @@ class SigninViewController: UIViewController, UITextFieldDelegate {
     }
     
     func badPasswordAlert() {
-        var alert = UIAlertController(title: "Driver must enter password", message: "Try 'password'", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Driver must enter password", message: "Try 'password'", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)

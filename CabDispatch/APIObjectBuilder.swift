@@ -93,8 +93,8 @@ class APIObjectBuilder {
     
     func jsonArrayToDictionary(array : NSArray) -> NSDictionary {
         
-        var holderDictionary = NSMutableDictionary()
-        var count = array.count
+        let holderDictionary = NSMutableDictionary()
+        let count = array.count
         
         for(var counter = 0; counter < count; counter++) {
             if let checkDictionary = array[counter] as? Dictionary<String, AnyObject> {
@@ -107,13 +107,13 @@ class APIObjectBuilder {
                     let user = checkDictionary["Customer_ID"] as! Int
                     let userAsString : String = "\(user)"
                     fare["UserID"] = userAsString
-                    var id = checkDictionary["FareNumber"] as! Int
-                    var key = "\(id)"
+                    let id = checkDictionary["FareNumber"] as! Int
+                    let key = "\(id)"
                     holderDictionary.setValue(fare, forKey: key)
                 } else {
-                    var key = "Driver\(counter)"
+                    let key = "Driver\(counter)"
                     holderDictionary.setValue(array[counter], forKey: key)
-                    println("Driver get")
+                    print("Driver get")
                 }
             }
             
@@ -125,12 +125,12 @@ class APIObjectBuilder {
         
         var returnObject = NSMutableDictionary()
         var responseString : NSString? = NSString(data: data!, encoding: NSUTF8StringEncoding)
-        var stringLength : Int = responseString!.length
+        let stringLength : Int = responseString!.length
         responseString = responseString?.substringToIndex(stringLength - 1)
         responseString = responseString?.substringFromIndex(1)
-        var backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
+        let backToData = responseString?.dataUsingEncoding(NSUTF8StringEncoding)
         
-        if let toJson = NSJSONSerialization.JSONObjectWithData(backToData!, options: .MutableContainers, error: nil) as? NSMutableDictionary {
+        if let toJson = NSJSONSerialization.JSONObjectWithData(backToData!, options: .MutableContainers) as? NSMutableDictionary {
             returnObject = toJson
         } else {
             returnObject = NSMutableDictionary()

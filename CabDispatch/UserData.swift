@@ -80,7 +80,7 @@ class UserData : NSObject {
     }
     
     func documentDirectoryPath() -> NSURL {
-        let urls = fileManager.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask) as! [NSURL]
+        let urls = fileManager.URLsForDirectory(NSSearchPathDirectory.DocumentDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask) as [NSURL]
         return urls[0]
     }
     
@@ -110,7 +110,7 @@ class UserData : NSObject {
         
         let path = documentDirectoryPath().URLByAppendingPathComponent("/UserData.plist")
         
-        var dictionaryToWrite = buildDataToWrite()
+        let dictionaryToWrite = buildDataToWrite()
         
         (dictionaryToWrite as NSDictionary).writeToURL(path, atomically: true)
     }

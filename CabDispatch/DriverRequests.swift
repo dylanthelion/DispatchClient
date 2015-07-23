@@ -36,9 +36,9 @@ class DriverRequests {
     
     func createDriver(location : CLLocation) -> Dictionary<String, AnyObject> {
         let requestInfo = AppConstants.ControllerActions.CreateDriver
-        var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-        var driverObject = jsonManager.buildDriverJSON(location, deviceID: deviceID)
-        var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject) as! NSMutableDictionary
+        let actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+        let driverObject = jsonManager.buildDriverJSON(location, deviceID: deviceID)
+        let response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject) as! NSMutableDictionary
         if let unwrapDictionary = response["Driver0"] as? Dictionary<String, AnyObject> {
             if let checkForDictionary = unwrapDictionary["UserID"] as? Int {
                 
@@ -59,8 +59,8 @@ class DriverRequests {
     
     func patchDriver(location : CLLocation) {
         let requestInfo = AppConstants.ControllerActions.PatchDriver
-        var actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
-        var driverObject = jsonManager.buildDriverJSON(location, deviceID: deviceID)
+        let actionArray : [AnyObject] = [requestInfo.0, requestInfo.1, requestInfo.2]
+        let driverObject = jsonManager.buildDriverJSON(location, deviceID: deviceID)
         var response = serverManager.sendRequest(AppConstants.ServerControllers.Driver, action: actionArray, params: nil, requestBody: driverObject)
     }
     
@@ -70,7 +70,7 @@ class DriverRequests {
         let action = AppConstants.ControllerActions.AllFares
         let actions = [action.0, action.1]
         
-        var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: nil, requestBody: nil)
+        let dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: nil, requestBody: nil)
         
         return dictionaryToReturn as! Dictionary<String, AnyObject>
     }
@@ -98,7 +98,7 @@ class DriverRequests {
         
         params["orderedBy"] = orderedBy
         
-        var dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
+        let dictionaryToReturn = serverManager.sendRequest(controller, action: actions, params: params, requestBody: nil)
         
         return dictionaryToReturn as! Dictionary<String, AnyObject>
     }

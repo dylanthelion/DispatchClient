@@ -18,11 +18,11 @@ func buildStringFromDictionary(data : Dictionary<String, AnyObject>, root : Stri
         }
         
         for(key, value) in data {
-            returnString += "\(key)"
+            returnString += "\(key) : "
             if let checkValue = value as? Dictionary<String, AnyObject> {
-                returnString = buildStringFromDictionary(checkValue, returnString)
+                returnString = buildStringFromDictionary(checkValue, root: returnString)
             } else {
-                returnString += "\(value)"
+                returnString += "\(value)\n"
             }
             
         }

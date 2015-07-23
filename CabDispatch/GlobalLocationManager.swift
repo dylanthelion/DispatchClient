@@ -24,6 +24,7 @@ class GlobalLocationManager: CLLocationManager {
     }
     
     func startLocating(delegate : CLLocationManagerDelegate) {
+        
         self.delegate = delegate
         
         if(!isLocating) {

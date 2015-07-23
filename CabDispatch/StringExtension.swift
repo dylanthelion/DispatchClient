@@ -18,20 +18,20 @@ extension String {
     
     func getNumericPostscript() -> Int? {
         
-        if(count(self) == 0) {
+        if(self.characters.count == 0) {
             return nil
         }
         
         var end : String.Index = self.endIndex.predecessor()
         
-        while (String(self[end]).toInt() != nil) {
+        while (Int(String(self[end])) != nil) {
             end = end.predecessor()
         }
         
         end = end.successor()
         
-        var stringRange : Range = end...self.endIndex.predecessor()
+        let stringRange : Range = end...self.endIndex.predecessor()
         
-        return String(self[stringRange]).toInt()
+        return Int(String(self[stringRange]))
     }
 }

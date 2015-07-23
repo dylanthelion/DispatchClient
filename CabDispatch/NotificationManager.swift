@@ -22,7 +22,7 @@ class NotificationManager {
     }
     
     func postAccountUpdateNotifications(phone : String?, email : String?, userID : String?, deviceID : String?) {
-        println("Updates posted")
+        print("Updates posted")
         
         if let checkPhone = phone {
             NSNotificationCenter.defaultCenter().postNotificationName("phoneNumberChanged", object: nil, userInfo: ["phone" : phone!])
@@ -33,7 +33,7 @@ class NotificationManager {
         }
         
         if let checkUserID = userID {
-            println("ID Notification posted")
+            print("ID Notification posted")
             NSNotificationCenter.defaultCenter().postNotificationName("userIDChanged", object: nil, userInfo: ["id" : userID!])
         }
         

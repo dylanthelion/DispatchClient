@@ -20,7 +20,7 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
     var selectedFareID : String?
     
     override init() {
-        println("Init delegate")
+        print("Init delegate")
         startingAnnotations = [MKAnnotationView]()
         destinationAnnotations = [MKAnnotationView]()
         super.init()
@@ -34,7 +34,7 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
         destinationPinImage = UIImage(named: "PurpleMapPin")
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         let startIndex = view.reuseIdentifier.startIndex
         
@@ -64,9 +64,9 @@ class AvailableFaresMapDelegate : NSObject, MKMapViewDelegate {
         }
     }
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
         
-        println("View for annotation")
+        print("View for annotation")
         
         if(!(annotation is MKPointAnnotation)) {
             return nil

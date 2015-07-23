@@ -36,7 +36,7 @@ class CustomerInfoViewController: UIViewController {
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -57,9 +57,9 @@ class CustomerInfoViewController: UIViewController {
             
         } else {
             
-            var userID = customerInfo["userID"]!
-            var phone = customerInfo["phone"]!
-            var email = customerInfo["email"]!
+            let userID = customerInfo["userID"]!
+            let phone = customerInfo["phone"]!
+            let email = customerInfo["email"]!
             userIDLabel.text = "User ID : \(userID)"
             phoneOrErrorLabel.text = "Phone: \(phone)"
             emailLabel.text = "Email: \(email)"

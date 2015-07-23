@@ -37,7 +37,7 @@ class DriverInfoViewController: UIViewController {
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     

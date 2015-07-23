@@ -77,7 +77,7 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
         
         let geocodedDestination: Void? = geocoder?.geocodeAddressString(destinationAddress, inRegion: nil, completionHandler: {(placemarks : [AnyObject]!, error: NSError!) -> Void in
             if(error != nil) {
-                println("Error: \(error)")
+                print("Error: \(error)")
             }
             
             else if let placemark = placemarks?[0] as? CLPlacemark {
@@ -94,7 +94,7 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -121,7 +121,7 @@ class CustomerRequestFareViewController: UIViewController, CLLocationManagerDele
         return true
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         locationManager.isLocating = true
         let location = locationManager.location
         dataManager.currentLocation = location

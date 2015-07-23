@@ -32,7 +32,7 @@ class DriverAssignedFaresViewController: UIViewController {
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -72,7 +72,7 @@ class DriverAssignedFaresViewController: UIViewController {
     
     func getFares() -> Dictionary<String, AnyObject> {
         
-        var dictionaryToReturn = serverManager.getAssignedFares(dataManager.userID!, orderedBy: "location")
+        let dictionaryToReturn = serverManager.getAssignedFares(dataManager.userID!, orderedBy: "location")
         
         return dictionaryToReturn as Dictionary<String, AnyObject>
     }
@@ -106,7 +106,7 @@ class DriverAssignedFaresViewController: UIViewController {
             let label = UILabel(frame: CGRectMake(0, yCoord, width, labelHeight))
             var labelText : String = "\(key)"
             if let checkValue = value as? Dictionary<String, AnyObject> {
-                labelText = buildStringFromDictionary(checkValue, labelText)
+                labelText = buildStringFromDictionary(checkValue, root: labelText)
             } else {
                 labelText += "Error"
             }

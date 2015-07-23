@@ -52,12 +52,17 @@ class ServerManager {
         
         // check to make sure request is built properly; many of the requests sent with an already-created account will only return a json-encoded error message
         
-        println("URL: \(sentURL)")
+        print("URL: \(sentURL)")
         
         if let checkForBody = requestBody {
             if(action.count > 2) {
                 var error : NSError?
-                url.HTTPBody = NSJSONSerialization.dataWithJSONObject(requestBody!, options: nil, error: &error)
+                do {
+                    url.HTTPBody = try NSJSONSerialization.dataWithJSONObject(requestBody!, options: [])
+                } catch var error1 as NSError {
+                    error = error1
+                    url.HTTPBody = nil
+                }
             }
         }
         
@@ -72,27 +77,27 @@ class ServerManager {
             
             var err : NSError?
             
-            if let responseObject  = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSDictionary {
+            if let responseObject  = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves) as? NSDictionary {
                 
                 returnObject = responseObject
-                println("Dictionary get")
+                print("Dictionary get")
                 
-            } else if let responseObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &err) as? NSArray {
+            } else if let responseObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves) as? NSArray {
                 
-                println("Array get")
+                print("Array get")
                 returnObject = self.jsonManager.jsonArrayToDictionary(responseObject)
                 
             } else {
                 
                 returnObject = self.jsonManager.jsonMessageStringToDictionary(data)
-                println("Message get")
+                print("Message get")
             }
             
             
             if(err != nil) {
                 returnObject = NSMutableDictionary()
                 returnObject!.setValue("You done messed up", forKey: "Error")
-                println("Error get: \(err?.localizedDescription)")
+                print("Error get: \(err?.localizedDescription)")
             }
         })
         

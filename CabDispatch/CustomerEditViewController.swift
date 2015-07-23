@@ -41,14 +41,14 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         return true
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         locationManager.isLocating = true
         let location = locationManager.location
         dataManager.currentLocation = location
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -71,7 +71,7 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
         }
         
         if(dataManager.accountIsCreated()) {
-            println("Patch customer")
+            print("Patch customer")
             serverManager.patchCustomer(phone, email: email, location: locationManager.location)
         } else {
             var response = serverManager.createCustomer(phone, email: email, location: locationManager.location)
@@ -93,9 +93,9 @@ class CustomerEditViewController: UIViewController, UITextFieldDelegate, CLLocat
                     destination.labelData[0] = ""
                     destination.labelData[2] = ""
                 } else {
-                    var userID = customerInfo["userID"]!
-                    var phone = customerInfo["phone"]!
-                    var email = customerInfo["email"]!
+                    let userID = customerInfo["userID"]!
+                    let phone = customerInfo["phone"]!
+                    let email = customerInfo["email"]!
                     destination.labelData[0] = "User ID : \(userID)"
                     destination.labelData[1] = "Phone: \(phone)"
                     destination.labelData[2] = "Email: \(email)"

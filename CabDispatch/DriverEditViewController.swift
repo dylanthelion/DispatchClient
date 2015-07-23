@@ -35,7 +35,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -43,7 +43,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
         self.parentViewController?.parentViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         locationManager.isLocating = true
         let location = locationManager.location
         dataManager.currentLocation = location
@@ -52,7 +52,7 @@ class DriverEditViewController: UIViewController, UITextFieldDelegate, CLLocatio
 
     @IBAction func createAccount(sender: AnyObject) {
         if(dataManager.accountIsCreated() == true) {
-            println("Patch driver")
+            print("Patch driver")
             serverManager.patchDriver(locationManager.location)
         } else {
             serverManager.createDriver(locationManager.location)

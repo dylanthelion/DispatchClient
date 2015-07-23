@@ -42,7 +42,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
@@ -71,7 +71,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
     
     func buildAnnotations() {
         
-        var allFares = serverManager.allFares()
+        let allFares = serverManager.allFares()
         //println("Fares: \(allFares)")
         
         for(key, value) in allFares {
@@ -100,7 +100,7 @@ class DriverAvailableFaresViewController: UIViewController, CLLocationManagerDel
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         locationManager.isLocating = true
         let location = locationManager.location
         dataManager.currentLocation = location

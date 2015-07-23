@@ -63,15 +63,15 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
     }
     
     func buildAnnotations() {
-        var drivers = getDrivers()
+        let drivers = getDrivers()
         
         for(key, value) in drivers {
             if let driver = value as? Dictionary<String, AnyObject> {
                 //println("Driver: \(driver)")
                 
                 if let driverLocation = driver["Location"] as? Dictionary<String, AnyObject> {
-                    var latSign = driverLocation["Latitude_sign"] as! String
-                    var longSign = driverLocation["Longitude_sign"] as! String
+                    let latSign = driverLocation["Latitude_sign"] as! String
+                    let longSign = driverLocation["Longitude_sign"] as! String
                     var lat = driverLocation["Latitude"] as!Double
                     var long = driverLocation["Longitude"] as! Double
                     
@@ -108,14 +108,14 @@ class CustomerFareViewController: UIViewController, UITextFieldDelegate, CLLocat
         return true
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
         locationManager.isLocating = true
         let location = locationManager.location
         dataManager.currentLocation = location
     }
     
     func buildLogoutButton() {
-        var logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
+        let logoutButton = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "logout")
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
